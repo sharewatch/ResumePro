@@ -482,7 +482,6 @@ async def export_cover_letter_pdf(request: dict):
     story.append(Spacer(1, 0.3*inch))
     
     # Date
-    from datetime import date
     today = date.today().strftime("%d %B %Y")
     story.append(Paragraph(today, styles['Normal']))
     story.append(Spacer(1, 0.2*inch))
