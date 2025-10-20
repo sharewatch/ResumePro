@@ -322,6 +322,55 @@ Return JSON:
         logger.error(f"Cover letter generation error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to generate cover letter")
 
+async def extract_skills_with_ai(text: str, existing_skills: List[str]) -> SkillsExtractResponse:
+    """Use OpenAI to extract skills from job description"""
+    
+    prompt = f"""Extract technical and professional skills from this job description. 
+Return a JSON list of skills with their categories.
+
+Job Description:
+{text}
+
+Existing Skills (to mark as already added):
+{', '.join(existing_skills)}
+
+Return JSON:
+{{
+  "skills": [
+    {{"name": "Python", "category": "Programming", "alreadyAdded": false}},
+    {{"name": "Leadership", "category": "Soft Skills", "alreadyAdded": true}}
+  ]
+}}
+
+Categories: Programming, Frameworks, Databases, Cloud, Tools, Soft Skills, Other"""
+    
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are an expert at extracting skills from job descriptions. Return valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            response_format={"type": "json_object"}
+        )
+        
+        result = json.loads(response.choices[0].message.content)
+        skills = []
+        
+        for skill_data in result.get('skills', []):
+            already_added = skill_data.get('name', '') in existing_skills
+            skills.append(SkillItem(
+                name=skill_data.get('name', ''),
+                category=skill_data.get('category', 'Other'),
+                alreadyAdded=already_added
+            ))
+        
+        return SkillsExtractResponse(skills=skills)
+    except Exception as e:
+        logger.error(f"Skills extraction error: {str(e)}")
+        return SkillsExtractResponse(skills=[])
+
 # AI Analysis Function
 async def analyze_ats_with_ai(resume_data: ResumeData, job_description: str) -> ATSAnalysisResponse:
     """Use OpenAI to analyze resume against job description"""
