@@ -43,7 +43,17 @@ const ResumeImport = ({ onImportComplete, onClose }) => {
       }, 1500);
     } catch (err) {
       console.error('Upload failed:', err);
-      setError(err.response?.data?.detail || 'Failed to parse resume. Please try again.');
+      let errorMessage = 'Failed to parse resume. ';
+      
+      if (err.response?.status === 401) {
+        errorMessage += 'AI service temporarily unavailable. Please try again later or enter your information manually.';
+      } else if (err.response?.status === 400) {
+        errorMessage += err.response?.data?.detail || 'The file format may not be supported. Please ensure your resume is a valid PDF or DOCX file.';
+      } else {
+        errorMessage += 'Please try again or enter your information manually.';
+      }
+      
+      setError(errorMessage);
     } finally {
       setUploading(false);
     }
