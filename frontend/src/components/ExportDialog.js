@@ -60,6 +60,12 @@ const ExportDialog = ({ resumeData, template, onClose }) => {
           </DialogDescription>
         </DialogHeader>
 
+        {error && (
+          <div className="export-error">
+            <p className="error-text">{error}</p>
+          </div>
+        )}
+
         {exportSuccess ? (
           <div className="export-success">
             <CheckCircle size={48} className="success-icon" />
