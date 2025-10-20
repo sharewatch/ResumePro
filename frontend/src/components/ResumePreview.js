@@ -32,36 +32,45 @@ const ResumePreview = ({ resumeData, template }) => {
       <div className={`resume-template resume-${template}`}>
         {/* Header */}
         <div className="resume-header" style={{ borderBottomColor: templateStyles.headerBorder }}>
-          <h1 className="resume-name">{personalInfo.fullName}</h1>
-          <div className="contact-info">
-            {personalInfo.email && (
-              <div className="contact-item">
-                <Mail size={14} />
-                <span>{personalInfo.email}</span>
+          <div className="header-content-wrapper">
+            <div className="header-text">
+              <h1 className="resume-name">{personalInfo.fullName}</h1>
+              <div className="contact-info">
+                {personalInfo.email && (
+                  <div className="contact-item">
+                    <Mail size={14} />
+                    <span>{personalInfo.email}</span>
+                  </div>
+                )}
+                {personalInfo.phone && (
+                  <div className="contact-item">
+                    <Phone size={14} />
+                    <span>{personalInfo.phone}</span>
+                  </div>
+                )}
+                {personalInfo.location && (
+                  <div className="contact-item">
+                    <MapPin size={14} />
+                    <span>{personalInfo.location}</span>
+                  </div>
+                )}
+                {personalInfo.linkedin && (
+                  <div className="contact-item">
+                    <Linkedin size={14} />
+                    <span>{personalInfo.linkedin}</span>
+                  </div>
+                )}
+                {personalInfo.portfolio && (
+                  <div className="contact-item">
+                    <Globe size={14} />
+                    <span>{personalInfo.portfolio}</span>
+                  </div>
+                )}
               </div>
-            )}
-            {personalInfo.phone && (
-              <div className="contact-item">
-                <Phone size={14} />
-                <span>{personalInfo.phone}</span>
-              </div>
-            )}
-            {personalInfo.location && (
-              <div className="contact-item">
-                <MapPin size={14} />
-                <span>{personalInfo.location}</span>
-              </div>
-            )}
-            {personalInfo.linkedin && (
-              <div className="contact-item">
-                <Linkedin size={14} />
-                <span>{personalInfo.linkedin}</span>
-              </div>
-            )}
-            {personalInfo.portfolio && (
-              <div className="contact-item">
-                <Globe size={14} />
-                <span>{personalInfo.portfolio}</span>
+            </div>
+            {personalInfo.photo && (
+              <div className="header-photo">
+                <img src={personalInfo.photo} alt={personalInfo.fullName} />
               </div>
             )}
           </div>
