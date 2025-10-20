@@ -63,7 +63,7 @@ const ResumeBuilder = () => {
               className="save-btn"
             >
               <Save size={16} />
-              {saveStatus === 'saved' ? 'Saved!' : 'Save'}
+              {saveStatus === 'saved' ? 'Saved!' : saveStatus === 'error' ? 'Error' : 'Save'}
             </Button>
             <Button 
               variant="outline"
