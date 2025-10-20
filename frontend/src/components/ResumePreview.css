@@ -1,0 +1,236 @@
+.resume-preview {
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  background: #f1f5f9;
+  padding: 2rem;
+}
+
+.resume-template {
+  width: 100%;
+  max-width: 850px;
+  background: white;
+  padding: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Header */
+.resume-header {
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.resume-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.75rem 0;
+}
+
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #475569;
+}
+
+.contact-item svg {
+  color: #64748b;
+}
+
+/* Sections */
+.resume-section {
+  margin-bottom: 2rem;
+}
+
+.section-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 0.5rem;
+}
+
+.summary-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #334155;
+}
+
+/* Experience */
+.experience-item {
+  margin-bottom: 1.5rem;
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.exp-title-company {
+  flex: 1;
+}
+
+.exp-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.exp-company {
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.exp-dates {
+  font-size: 0.875rem;
+  color: #64748b;
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+
+.exp-location {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.exp-bullets {
+  margin: 0.75rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.exp-bullets li {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+/* Education */
+.education-item {
+  margin-bottom: 1.25rem;
+}
+
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.edu-degree {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.25rem 0;
+}
+
+.edu-school {
+  font-size: 1rem;
+  color: #475569;
+  margin: 0;
+}
+
+.edu-date {
+  font-size: 0.875rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.edu-gpa {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Skills */
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  background: #e2e8f0;
+  color: #334155;
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Modern Template Variation */
+.resume-modern .resume-header {
+  border-bottom: 3px solid #1e40af;
+}
+
+.resume-modern .section-heading {
+  color: #1e40af;
+  border-bottom-color: #1e40af;
+}
+
+.resume-modern .skill-tag {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Minimal Template Variation */
+.resume-minimal .resume-header {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.resume-minimal .section-heading {
+  border-bottom: none;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .resume-preview {
+    padding: 1rem;
+  }
+  
+  .resume-template {
+    padding: 2rem 1.5rem;
+  }
+  
+  .resume-name {
+    font-size: 2rem;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .exp-header {
+    flex-direction: column;
+  }
+  
+  .exp-dates {
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+  
+  .edu-header {
+    flex-direction: column;
+  }
+}
