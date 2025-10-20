@@ -4,7 +4,28 @@ import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
 import './ResumePreview.css';
 
 const ResumePreview = ({ resumeData, template }) => {
-  const { personalInfo, summary, experience, education, skills } = resumeData;
+  const { personalInfo, summary, experience, education, skills, certifications, languages } = resumeData;
+
+  // Template-specific styling
+  const getTemplateStyles = () => {
+    const styles = {
+      professional: { headerBorder: '#0f172a', accentColor: '#0f172a' },
+      modern: { headerBorder: '#1e40af', accentColor: '#1e40af' },
+      minimal: { headerBorder: '#64748b', accentColor: '#64748b' },
+      creative: { headerBorder: '#7c3aed', accentColor: '#7c3aed' },
+      tech: { headerBorder: '#059669', accentColor: '#059669' },
+      elegant: { headerBorder: '#991b1b', accentColor: '#991b1b' },
+      healthcare: { headerBorder: '#0284c7', accentColor: '#0284c7' },
+      academic: { headerBorder: '#4f46e5', accentColor: '#4f46e5' },
+      marketing: { headerBorder: '#dc2626', accentColor: '#dc2626' },
+      finance: { headerBorder: '#15803d', accentColor: '#15803d' },
+      startup: { headerBorder: '#ea580c', accentColor: '#ea580c' },
+      executive: { headerBorder: '#1e293b', accentColor: '#1e293b' }
+    };
+    return styles[template] || styles.professional;
+  };
+
+  const templateStyles = getTemplateStyles();
 
   return (
     <div className="resume-preview">
