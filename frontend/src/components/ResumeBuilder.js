@@ -17,6 +17,7 @@ const API = `${BACKEND_URL}/api`;
 const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState(mockResumeData);
   const [selectedTemplate, setSelectedTemplate] = useState('professional');
+  const [customColor, setCustomColor] = useState(null);
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [activeTab, setActiveTab] = useState('edit');
