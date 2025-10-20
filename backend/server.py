@@ -131,6 +131,16 @@ class ExportRequest(BaseModel):
     resumeData: ResumeData
     template: str
 
+class CoverLetterRequest(BaseModel):
+    resumeData: ResumeData
+    jobDescription: str
+    companyName: str = ""
+    jobTitle: str = ""
+
+class CoverLetterResponse(BaseModel):
+    content: str
+    suggestions: List[str] = []
+
 # AI Analysis Function
 async def analyze_ats_with_ai(resume_data: ResumeData, job_description: str) -> ATSAnalysisResponse:
     """Use OpenAI to analyze resume against job description"""
