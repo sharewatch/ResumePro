@@ -107,6 +107,8 @@ const ResumeBuilder = () => {
               <ResumePreview 
                 resumeData={resumeData}
                 template={selectedTemplate}
+                customColor={customColor}
+                onColorChange={setCustomColor}
               />
             </TabsContent>
           </Tabs>
