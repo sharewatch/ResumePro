@@ -206,6 +206,14 @@ const ResumeBuilder = () => {
           onClose={() => setShowImportDialog(false)}
         />
       )}
+
+      {showSkillsImport && (
+        <BulkSkillsImport
+          currentSkills={resumeData.skills}
+          onSkillsImport={handleSkillsImport}
+          onClose={() => setShowSkillsImport(false)}
+        />
+      )}
     </div>
   );
 };
