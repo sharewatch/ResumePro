@@ -1,9 +1,67 @@
 .resume-preview {
   min-height: 500px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   background: #f1f5f9;
-  padding: 2rem;
+  padding: 1.5rem;
+}
+
+/* Color Customizer */
+.color-customizer {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.color-customizer label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.color-options {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.color-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.color-btn.active {
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+}
+
+.color-picker {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.preview-container {
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  flex: 1;
 }
 
 .resume-template {
