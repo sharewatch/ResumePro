@@ -5,7 +5,7 @@ import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Trash2, GripVertical, Sparkles } from 'lucide-react';
 import TemplateSelector from './TemplateSelector';
 import './ResumeEditor.css';
 
