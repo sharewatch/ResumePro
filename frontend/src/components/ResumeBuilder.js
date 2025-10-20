@@ -23,9 +23,16 @@ const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState(mockResumeData);
   const [selectedTemplate, setSelectedTemplate] = useState('professional');
   const [customColor, setCustomColor] = useState(null);
+  const [customization, setCustomization] = useState({
+    font: 'inter',
+    spacing: 1,
+    fontSize: 1,
+    sectionOrder: ['summary', 'experience', 'education', 'skills', 'certifications', 'languages']
+  });
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [showImportDialog, setShowImportDialog] = useState(false);
+  const [showSkillsImport, setShowSkillsImport] = useState(false);
   const [activeTab, setActiveTab] = useState('edit');
   const [mainTab, setMainTab] = useState('resume');
   const [saveStatus, setSaveStatus] = useState('');
