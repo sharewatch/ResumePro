@@ -156,6 +156,31 @@
   }
 }
 
+/* Photo Preview */
+.photo-preview {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.photo-preview img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+.remove-photo-btn {
+  color: #ef4444;
+}
+
+.remove-photo-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
 /* Additional Sections */
 .subsection {
   margin-bottom: 2.5rem;
