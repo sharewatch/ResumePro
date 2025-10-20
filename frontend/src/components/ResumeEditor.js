@@ -117,16 +117,83 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
     });
   };
 
+  const addCertification = () => {
+    const newCert = {
+      id: `cert${Date.now()}`,
+      name: '',
+      issuer: '',
+      date: ''
+    };
+    setResumeData({ 
+      ...resumeData, 
+      certifications: [...(resumeData.certifications || []), newCert] 
+    });
+  };
+
+  const updateCertification = (id, field, value) => {
+    setResumeData({
+      ...resumeData,
+      certifications: (resumeData.certifications || []).map(cert =>
+        cert.id === id ? { ...cert, [field]: value } : cert
+      )
+    });
+  };
+
+  const removeCertification = (id) => {
+    setResumeData({
+      ...resumeData,
+      certifications: (resumeData.certifications || []).filter(cert => cert.id !== id)
+    });
+  };
+
+  const addLanguage = () => {
+    const newLang = {
+      id: `lang${Date.now()}`,
+      language: '',
+      proficiency: ''
+    };
+    setResumeData({ 
+      ...resumeData, 
+      languages: [...(resumeData.languages || []), newLang] 
+    });
+  };
+
+  const updateLanguage = (id, field, value) => {
+    setResumeData({
+      ...resumeData,
+      languages: (resumeData.languages || []).map(lang =>
+        lang.id === id ? { ...lang, [field]: value } : lang
+      )
+    });
+  };
+
+  const removeLanguage = (id) => {
+    setResumeData({
+      ...resumeData,
+      languages: (resumeData.languages || []).filter(lang => lang.id !== id)
+    });
+  };
+
   return (
     <div className="resume-editor">
-      <Tabs defaultValue="personal" className="editor-tabs">
+      <Tabs defaultValue="template" className="editor-tabs">
         <TabsList className="editor-tabs-list">
+          <TabsTrigger value="template">Template</TabsTrigger>
           <TabsTrigger value="personal">Personal</TabsTrigger>
           <TabsTrigger value="summary">Summary</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="education">Education</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
+          <TabsTrigger value="extra">More</TabsTrigger>
         </TabsList>
+
+        {/* Template Selection */}
+        <TabsContent value="template" className="editor-section">
+          <TemplateSelector 
+            selectedTemplate={selectedTemplate}
+            onSelectTemplate={setSelectedTemplate}
+          />
+        </TabsContent>
 
         {/* Personal Info */}
         <TabsContent value="personal" className="editor-section">
