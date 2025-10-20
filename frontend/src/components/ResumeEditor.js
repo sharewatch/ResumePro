@@ -343,23 +343,23 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
                   <Input
                     value={exp.location}
                     onChange={(e) => updateExperience(exp.id, 'location', e.target.value)}
-                    placeholder="City, State"
+                    placeholder="City, Country"
                   />
                 </div>
                 <div className="form-field">
-                  <label>Start Date *</label>
+                  <label>Start Date * (DD-MM-YYYY)</label>
                   <Input
                     value={exp.startDate}
                     onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)}
-                    placeholder="Jan 2021"
+                    placeholder="01-01-2021"
                   />
                 </div>
                 <div className="form-field">
-                  <label>End Date</label>
+                  <label>End Date (DD-MM-YYYY)</label>
                   <Input
                     value={exp.endDate}
                     onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)}
-                    placeholder="Present"
+                    placeholder="Present or 31-12-2023"
                     disabled={exp.current}
                   />
                 </div>
