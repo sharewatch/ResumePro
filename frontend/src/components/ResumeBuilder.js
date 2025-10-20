@@ -51,6 +51,14 @@ const ResumeBuilder = () => {
     setShowExportDialog(true);
   };
 
+  const handleImportComplete = (parsedData) => {
+    setResumeData(parsedData);
+    setShowImportDialog(false);
+    setMainTab('resume');
+    setSaveStatus('imported');
+    setTimeout(() => setSaveStatus(''), 2000);
+  };
+
   return (
     <div className="resume-builder">
       {/* Header */}
@@ -63,78 +71,113 @@ const ResumeBuilder = () => {
           </div>
           <div className="header-actions">
             <Button 
+              variant="outline"
+              onClick={() => setShowImportDialog(true)}
+              className="import-btn"
+            >
+              <Upload size={16} />
+              Import Resume
+            </Button>
+            <Button 
               variant="outline" 
               onClick={handleSave}
               className="save-btn"
             >
               <Save size={16} />
-              {saveStatus === 'saved' ? 'Saved!' : saveStatus === 'error' ? 'Error' : 'Save'}
+              {saveStatus === 'saved' ? 'Saved!' : saveStatus === 'imported' ? 'Imported!' : saveStatus === 'error' ? 'Error' : 'Save'}
             </Button>
-            <Button 
-              variant="outline"
-              onClick={() => setShowAIPanel(!showAIPanel)}
-              className={showAIPanel ? 'ai-btn active' : 'ai-btn'}
-            >
-              <Sparkles size={16} />
-              AI Assistant
-            </Button>
-            <Button 
-              onClick={handleExport}
-              className="export-btn"
-            >
-              <Download size={16} />
-              Export
-            </Button>
+            {mainTab === 'resume' && (
+              <>
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowAIPanel(!showAIPanel)}
+                  className={showAIPanel ? 'ai-btn active' : 'ai-btn'}
+                >
+                  <Sparkles size={16} />
+                  AI Assistant
+                </Button>
+                <Button 
+                  onClick={handleExport}
+                  className="export-btn"
+                >
+                  <Download size={16} />
+                  Export
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
 
+      {/* Main Navigation */}
+      <div className="main-navigation">
+        <Tabs value={mainTab} onValueChange={setMainTab} className="main-tabs">
+          <TabsList>
+            <TabsTrigger value="resume">Resume</TabsTrigger>
+            <TabsTrigger value="cover-letter">Cover Letter</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       {/* Main Content */}
       <div className="builder-main">
-        <div className="builder-workspace">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="workspace-tabs">
-            <TabsList className="tabs-list">
-              <TabsTrigger value="edit">Edit Content</TabsTrigger>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="edit" className="tab-content">
-              <ResumeEditor 
-                resumeData={resumeData}
-                setResumeData={setResumeData}
-                selectedTemplate={selectedTemplate}
-                setSelectedTemplate={setSelectedTemplate}
-              />
-            </TabsContent>
-            
-            <TabsContent value="preview" className="tab-content">
-              <ResumePreview 
-                resumeData={resumeData}
-                template={selectedTemplate}
-                customColor={customColor}
-                onColorChange={setCustomColor}
-              />
-            </TabsContent>
-          </Tabs>
-        </div>
+        {mainTab === 'resume' ? (
+          <>
+            <div className="builder-workspace">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="workspace-tabs">
+                <TabsList className="tabs-list">
+                  <TabsTrigger value="edit">Edit Content</TabsTrigger>
+                  <TabsTrigger value="preview">Preview</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="edit" className="tab-content">
+                  <ResumeEditor 
+                    resumeData={resumeData}
+                    setResumeData={setResumeData}
+                    selectedTemplate={selectedTemplate}
+                    setSelectedTemplate={setSelectedTemplate}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="preview" className="tab-content">
+                  <ResumePreview 
+                    resumeData={resumeData}
+                    template={selectedTemplate}
+                    customColor={customColor}
+                    onColorChange={setCustomColor}
+                  />
+                </TabsContent>
+              </Tabs>
+            </div>
 
-        {/* AI Assistant Panel */}
-        {showAIPanel && (
-          <div className="ai-panel">
-            <AIAssistant 
-              resumeData={resumeData}
-              onClose={() => setShowAIPanel(false)}
-            />
-          </div>
+            {/* AI Assistant Panel */}
+            {showAIPanel && (
+              <div className="ai-panel">
+                <AIAssistant 
+                  resumeData={resumeData}
+                  onClose={() => setShowAIPanel(false)}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <CoverLetter resumeData={resumeData} />
         )}
       </div>
 
-      {/* Export Dialog */}
+      {/* Dialogs */}
       {showExportDialog && (
         <ExportDialog 
           resumeData={resumeData}
           template={selectedTemplate}
           onClose={() => setShowExportDialog(false)}
+        />
+      )}
+
+      {showImportDialog && (
+        <ResumeImport
+          onImportComplete={handleImportComplete}
+          onClose={() => setShowImportDialog(false)}
         />
       )}
     </div>
