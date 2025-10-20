@@ -69,6 +69,12 @@ const ResumeBuilder = () => {
     setTimeout(() => setSaveStatus(''), 2000);
   };
 
+  const handleSkillsImport = (newSkills) => {
+    const allSkills = [...new Set([...resumeData.skills, ...newSkills])];
+    setResumeData({ ...resumeData, skills: allSkills });
+    setShowSkillsImport(false);
+  };
+
   return (
     <div className="resume-builder">
       {/* Header */}
