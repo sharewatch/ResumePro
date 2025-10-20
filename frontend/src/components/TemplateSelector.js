@@ -8,25 +8,55 @@ const templates = [
   {
     id: 'professional',
     name: 'Professional',
-    category: 'Corporate',
-    description: 'Clean and classic layout for corporate roles',
+    category: 'Traditional',
+    description: 'Classic single-column layout for corporate roles',
     color: '#0f172a',
+    layout: 'single-column',
     preview: '/templates/professional.svg'
+  },
+  {
+    id: 'two-column-sidebar',
+    name: 'Two-Column Sidebar',
+    category: 'Modern',
+    description: 'Sidebar with skills and contact, main area for experience',
+    color: '#2563eb',
+    layout: 'two-column',
+    preview: '/templates/two-column.svg'
+  },
+  {
+    id: 'modern-creative',
+    name: 'Modern Creative',
+    category: 'Creative',
+    description: 'Colourful header with split content layout',
+    color: '#8b5cf6',
+    layout: 'creative',
+    preview: '/templates/creative.svg'
+  },
+  {
+    id: 'minimalist',
+    name: 'Minimalist',
+    category: 'Clean',
+    description: 'Simple, content-focused design with minimal styling',
+    color: '#6b7280',
+    layout: 'single-column',
+    preview: '/templates/minimal.svg'
   },
   {
     id: 'modern',
     name: 'Modern Executive',
     category: 'Corporate',
-    description: 'Contemporary design with subtle accent colors',
+    description: 'Contemporary design with subtle accent colours',
     color: '#1e40af',
+    layout: 'single-column',
     preview: '/templates/modern.svg'
   },
   {
     id: 'minimal',
-    name: 'Minimal',
+    name: 'Tech Minimal',
     category: 'Tech',
-    description: 'Minimalist approach focusing on content clarity',
+    description: 'Clean tech-inspired layout for developers',
     color: '#64748b',
+    layout: 'single-column',
     preview: '/templates/minimal.svg'
   },
   {
@@ -35,6 +65,7 @@ const templates = [
     category: 'Design',
     description: 'Bold design for creative professionals',
     color: '#7c3aed',
+    layout: 'creative',
     preview: '/templates/creative.svg'
   },
   {
@@ -43,14 +74,16 @@ const templates = [
     category: 'Tech',
     description: 'Clean code-inspired layout for developers',
     color: '#059669',
+    layout: 'single-column',
     preview: '/templates/tech.svg'
   },
   {
     id: 'elegant',
     name: 'Elegant',
-    category: 'Corporate',
+    category: 'Traditional',
     description: 'Sophisticated serif-based design',
     color: '#991b1b',
+    layout: 'single-column',
     preview: '/templates/elegant.svg'
   },
   {
@@ -59,6 +92,7 @@ const templates = [
     category: 'Healthcare',
     description: 'Professional design for medical fields',
     color: '#0284c7',
+    layout: 'single-column',
     preview: '/templates/healthcare.svg'
   },
   {
@@ -67,6 +101,7 @@ const templates = [
     category: 'Education',
     description: 'Publication-style for researchers and professors',
     color: '#4f46e5',
+    layout: 'single-column',
     preview: '/templates/academic.svg'
   },
   {
@@ -75,6 +110,7 @@ const templates = [
     category: 'Marketing',
     description: 'Vibrant design for marketing professionals',
     color: '#dc2626',
+    layout: 'creative',
     preview: '/templates/marketing.svg'
   },
   {
@@ -83,6 +119,7 @@ const templates = [
     category: 'Finance',
     description: 'Conservative design for financial roles',
     color: '#15803d',
+    layout: 'single-column',
     preview: '/templates/finance.svg'
   },
   {
@@ -91,6 +128,7 @@ const templates = [
     category: 'Entrepreneurship',
     description: 'Dynamic layout for startup culture',
     color: '#ea580c',
+    layout: 'creative',
     preview: '/templates/startup.svg'
   },
   {
@@ -99,6 +137,7 @@ const templates = [
     category: 'Corporate',
     description: 'Premium design for senior leadership',
     color: '#1e293b',
+    layout: 'two-column',
     preview: '/templates/executive.svg'
   }
 ];
