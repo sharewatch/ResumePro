@@ -8,7 +8,11 @@ import ResumePreview from './ResumePreview';
 import AIAssistant from './AIAssistant';
 import ExportDialog from './ExportDialog';
 import { mockResumeData } from '../mock';
+import axios from 'axios';
 import './ResumeBuilder.css';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState(mockResumeData);
@@ -18,11 +22,24 @@ const ResumeBuilder = () => {
   const [activeTab, setActiveTab] = useState('edit');
   const [saveStatus, setSaveStatus] = useState('');
 
-  const handleSave = () => {
-    // Mock save to localStorage
-    localStorage.setItem('currentResume', JSON.stringify(resumeData));
-    setSaveStatus('saved');
-    setTimeout(() => setSaveStatus(''), 2000);
+  const handleSave = async () => {
+    try {
+      await axios.post(`${API}/resumes`, {
+        resumeData,
+        template: selectedTemplate
+      });
+      
+      // Also keep localStorage backup
+      localStorage.setItem('currentResume', JSON.stringify(resumeData));
+      localStorage.setItem('selectedTemplate', selectedTemplate);
+      
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus(''), 2000);
+    } catch (error) {
+      console.error('Save failed:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus(''), 3000);
+    }
   };
 
   const handleExport = () => {
