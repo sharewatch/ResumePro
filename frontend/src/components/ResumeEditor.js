@@ -458,6 +458,109 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
             ))}
           </div>
         </TabsContent>
+
+        {/* Additional Sections */}
+        <TabsContent value="extra" className="editor-section">
+          <h3 className="section-title">Additional Information</h3>
+          
+          {/* Certifications */}
+          <div className="subsection">
+            <div className="section-header">
+              <h4 className="subsection-title">Certifications</h4>
+              <Button onClick={addCertification} size="sm" variant="outline">
+                <Plus size={16} /> Add Certification
+              </Button>
+            </div>
+            
+            {(resumeData.certifications || []).map((cert) => (
+              <Card key={cert.id} className="extra-card">
+                <div className="card-header">
+                  <span className="card-number">Certification</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeCertification(cert.id)}
+                    className="remove-btn"
+                  >
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
+                
+                <div className="form-grid">
+                  <div className="form-field full-width">
+                    <label>Certification Name *</label>
+                    <Input
+                      value={cert.name}
+                      onChange={(e) => updateCertification(cert.id, 'name', e.target.value)}
+                      placeholder="Certified Scrum Product Owner"
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Issuing Organization *</label>
+                    <Input
+                      value={cert.issuer}
+                      onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)}
+                      placeholder="Scrum Alliance"
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Date Obtained</label>
+                    <Input
+                      value={cert.date}
+                      onChange={(e) => updateCertification(cert.id, 'date', e.target.value)}
+                      placeholder="2020"
+                    />
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Languages */}
+          <div className="subsection">
+            <div className="section-header">
+              <h4 className="subsection-title">Languages</h4>
+              <Button onClick={addLanguage} size="sm" variant="outline">
+                <Plus size={16} /> Add Language
+              </Button>
+            </div>
+            
+            {(resumeData.languages || []).map((lang) => (
+              <Card key={lang.id} className="extra-card">
+                <div className="card-header">
+                  <span className="card-number">Language</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeLanguage(lang.id)}
+                    className="remove-btn"
+                  >
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
+                
+                <div className="form-grid">
+                  <div className="form-field">
+                    <label>Language *</label>
+                    <Input
+                      value={lang.language}
+                      onChange={(e) => updateLanguage(lang.id, 'language', e.target.value)}
+                      placeholder="Spanish"
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Proficiency Level *</label>
+                    <Input
+                      value={lang.proficiency}
+                      onChange={(e) => updateLanguage(lang.id, 'proficiency', e.target.value)}
+                      placeholder="Native, Fluent, Professional, Basic"
+                    />
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );
