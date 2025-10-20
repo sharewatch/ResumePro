@@ -141,6 +141,18 @@ class CoverLetterResponse(BaseModel):
     content: str
     suggestions: List[str] = []
 
+class SkillsExtractRequest(BaseModel):
+    text: str
+    existingSkills: List[str] = []
+
+class SkillItem(BaseModel):
+    name: str
+    category: str
+    alreadyAdded: bool = False
+
+class SkillsExtractResponse(BaseModel):
+    skills: List[SkillItem]
+
 # Helper Functions
 def extract_text_from_pdf(file_content: bytes) -> str:
     """Extract text from PDF file"""
