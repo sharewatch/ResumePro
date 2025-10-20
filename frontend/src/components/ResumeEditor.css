@@ -155,3 +155,27 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Additional Sections */
+.subsection {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.subsection:last-child {
+  border-bottom: none;
+}
+
+.subsection-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.extra-card {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+}
