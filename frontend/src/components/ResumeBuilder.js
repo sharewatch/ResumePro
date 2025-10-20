@@ -81,9 +81,18 @@ const ResumeBuilder = () => {
       <header className="builder-header">
         <div className="header-content">
           <div className="header-left">
-            <FileText className="header-icon" size={28} />
-            <h1 className="header-title">Resume Builder Pro</h1>
-            <Badge variant="secondary" className="beta-badge">AI-Powered</Badge>
+            <Button 
+              variant="ghost" 
+              onClick={() => setMainTab('resume')}
+              className="home-btn"
+              title="Home"
+            >
+              <FileText className="header-icon" size={28} />
+            </Button>
+            <div className="header-title-section">
+              <h1 className="header-title">Resume Builder Pro</h1>
+              <Badge variant="secondary" className="beta-badge">AI-Powered</Badge>
+            </div>
           </div>
           <div className="header-actions">
             <Button 
