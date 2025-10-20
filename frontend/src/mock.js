@@ -70,11 +70,32 @@ export const mockResumeData = {
     "Figma",
     "Cross-functional Leadership"
   ],
+  certifications: [
+    {
+      id: "cert1",
+      name: "Certified Scrum Product Owner (CSPO)",
+      issuer: "Scrum Alliance",
+      date: "2020"
+    }
+  ],
+  languages: [
+    {
+      id: "lang1",
+      language: "English",
+      proficiency: "Native"
+    },
+    {
+      id: "lang2",
+      language: "Spanish",
+      proficiency: "Professional Working"
+    }
+  ],
   projects: [
     {
       id: "proj1",
       name: "AI Content Recommendation Engine",
-      description: "Built ML-powered content recommendation system that increased user session time by 35%"
+      description: "Built ML-powered content recommendation system that increased user session time by 35%",
+      technologies: "Python, TensorFlow, AWS"
     }
   ]
 };
@@ -140,24 +161,3 @@ Required Skills:
 - Excellent stakeholder management skills
 - Natural Language Processing experience is a plus
 - Proven track record of launching successful AI products`;
-
-export const mockTemplates = [
-  {
-    id: "professional",
-    name: "Professional",
-    description: "Clean and classic layout suitable for corporate roles",
-    preview: "professional-preview.png"
-  },
-  {
-    id: "modern",
-    name: "Modern",
-    description: "Contemporary design with accent colors for tech roles",
-    preview: "modern-preview.png"
-  },
-  {
-    id: "minimal",
-    name: "Minimal",
-    description: "Minimalist approach focusing on content clarity",
-    preview: "minimal-preview.png"
-  }
-];
