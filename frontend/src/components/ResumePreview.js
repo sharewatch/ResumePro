@@ -31,7 +31,7 @@ const ResumePreview = ({ resumeData, template }) => {
     <div className="resume-preview">
       <div className={`resume-template resume-${template}`}>
         {/* Header */}
-        <div className="resume-header">
+        <div className="resume-header" style={{ borderBottomColor: templateStyles.headerBorder }}>
           <h1 className="resume-name">{personalInfo.fullName}</h1>
           <div className="contact-info">
             {personalInfo.email && (
@@ -70,7 +70,7 @@ const ResumePreview = ({ resumeData, template }) => {
         {/* Summary */}
         {summary && (
           <div className="resume-section">
-            <h2 className="section-heading">Professional Summary</h2>
+            <h2 className="section-heading" style={{ color: templateStyles.accentColor }}>Professional Summary</h2>
             <p className="summary-text">{summary}</p>
           </div>
         )}
@@ -78,7 +78,7 @@ const ResumePreview = ({ resumeData, template }) => {
         {/* Experience */}
         {experience.length > 0 && (
           <div className="resume-section">
-            <h2 className="section-heading">Work Experience</h2>
+            <h2 className="section-heading" style={{ color: templateStyles.accentColor }}>Work Experience</h2>
             {experience.map((exp) => (
               <div key={exp.id} className="experience-item">
                 <div className="exp-header">
@@ -104,7 +104,7 @@ const ResumePreview = ({ resumeData, template }) => {
         {/* Education */}
         {education.length > 0 && (
           <div className="resume-section">
-            <h2 className="section-heading">Education</h2>
+            <h2 className="section-heading" style={{ color: templateStyles.accentColor }}>Education</h2>
             {education.map((edu) => (
               <div key={edu.id} className="education-item">
                 <div className="edu-header">
@@ -123,14 +123,44 @@ const ResumePreview = ({ resumeData, template }) => {
         {/* Skills */}
         {skills.length > 0 && (
           <div className="resume-section">
-            <h2 className="section-heading">Skills</h2>
+            <h2 className="section-heading" style={{ color: templateStyles.accentColor }}>Skills</h2>
             <div className="skills-list">
               {skills.map((skill, idx) => (
                 skill && (
-                  <span key={idx} className="skill-tag">
+                  <span key={idx} className="skill-tag" style={{ borderColor: templateStyles.accentColor }}>
                     {skill}
                   </span>
                 )
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Certifications */}
+        {certifications && certifications.length > 0 && (
+          <div className="resume-section">
+            <h2 className="section-heading" style={{ color: templateStyles.accentColor }}>Certifications</h2>
+            {certifications.map((cert) => (
+              <div key={cert.id} className="certification-item">
+                <h3 className="cert-name">{cert.name}</h3>
+                <p className="cert-details">
+                  {cert.issuer}{cert.date && ` • ${cert.date}`}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Languages */}
+        {languages && languages.length > 0 && (
+          <div className="resume-section">
+            <h2 className="section-heading" style={{ color: templateStyles.accentColor }}>Languages</h2>
+            <div className="languages-list">
+              {languages.map((lang) => (
+                <div key={lang.id} className="language-item">
+                  <span className="lang-name">{lang.language}</span>
+                  <span className="lang-proficiency">{lang.proficiency}</span>
+                </div>
               ))}
             </div>
           </div>
