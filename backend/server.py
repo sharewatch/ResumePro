@@ -48,6 +48,7 @@ class PersonalInfo(BaseModel):
     location: str = ""
     linkedin: str = ""
     portfolio: str = ""
+    photo: str = ""
 
 class ExperienceItem(BaseModel):
     id: str
