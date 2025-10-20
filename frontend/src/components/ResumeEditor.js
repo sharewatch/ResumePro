@@ -463,9 +463,16 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
         <TabsContent value="skills" className="editor-section">
           <div className="section-header">
             <h3 className="section-title">Skills</h3>
-            <Button onClick={addSkill} size="sm">
-              <Plus size={16} /> Add Skill
-            </Button>
+            <div className="skills-actions">
+              {onOpenSkillsImport && (
+                <Button onClick={onOpenSkillsImport} size="sm" variant="outline">
+                  <Sparkles size={16} /> Bulk Import
+                </Button>
+              )}
+              <Button onClick={addSkill} size="sm">
+                <Plus size={16} /> Add Skill
+              </Button>
+            </div>
           </div>
           
           <div className="skills-grid">
