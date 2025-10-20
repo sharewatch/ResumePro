@@ -131,6 +131,8 @@ const ResumeBuilder = () => {
           <TabsList>
             <TabsTrigger value="resume">Resume</TabsTrigger>
             <TabsTrigger value="cover-letter">Cover Letter</TabsTrigger>
+            <TabsTrigger value="score">Score & Analytics</TabsTrigger>
+            <TabsTrigger value="customize">Customise</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -152,6 +154,7 @@ const ResumeBuilder = () => {
                     setResumeData={setResumeData}
                     selectedTemplate={selectedTemplate}
                     setSelectedTemplate={setSelectedTemplate}
+                    onOpenSkillsImport={() => setShowSkillsImport(true)}
                   />
                 </TabsContent>
                 
@@ -176,8 +179,15 @@ const ResumeBuilder = () => {
               </div>
             )}
           </>
-        ) : (
+        ) : mainTab === 'cover-letter' ? (
           <CoverLetter resumeData={resumeData} />
+        ) : mainTab === 'score' ? (
+          <ResumeScore resumeData={resumeData} />
+        ) : (
+          <TemplateCustomizer 
+            customization={customization}
+            onCustomizationChange={setCustomization}
+          />
         )}
       </div>
 
