@@ -574,6 +574,12 @@ async def export_cover_letter_pdf(request: dict):
     filename = f"{name_text.replace(' ', '_')}_Cover_Letter.pdf"
     return StreamingResponse(buffer, media_type="application/pdf", headers={"Content-Disposition": f"attachment; filename={filename}"})
 
+# Skills Extraction
+@api_router.post("/skills/extract", response_model=SkillsExtractResponse)
+async def extract_skills(request: SkillsExtractRequest):
+    """Extract skills from job description"""
+    return await extract_skills_with_ai(request.text, request.existingSkills)
+
 # Export Routes
 @api_router.post("/export/pdf")
 async def export_pdf(request: ExportRequest):
