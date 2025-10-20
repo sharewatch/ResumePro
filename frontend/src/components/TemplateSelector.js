@@ -200,9 +200,14 @@ const TemplateSelector = ({ selectedTemplate, onSelectTemplate }) => {
             
             <div className="template-info">
               <div className="template-name">{template.name}</div>
-              <Badge variant="secondary" className="template-category">
-                {template.category}
-              </Badge>
+              <div className="template-badges">
+                <Badge variant="secondary" className="template-category">
+                  {template.category}
+                </Badge>
+                <Badge variant="outline" className="template-layout">
+                  {template.layout === 'two-column' ? '2-Column' : template.layout === 'creative' ? 'Creative' : 'Classic'}
+                </Badge>
+              </div>
               <p className="template-description">{template.description}</p>
             </div>
           </Card>
