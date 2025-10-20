@@ -85,6 +85,24 @@
   background: #1e293b;
 }
 
+.import-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Main Navigation */
+.main-navigation {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 2rem;
+}
+
+.main-tabs .tabs-list {
+  border-bottom: none;
+  background: transparent;
+}
+
 /* Main Content */
 .builder-main {
   flex: 1;
