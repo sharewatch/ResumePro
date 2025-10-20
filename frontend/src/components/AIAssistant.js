@@ -66,7 +66,7 @@ const AIAssistant = ({ resumeData, onClose }) => {
           <Target className="ai-icon" size={24} />
           <div>
             <h2 className="ai-title">AI Assistant</h2>
-            <p className="ai-subtitle">Optimize for ATS & Impact</p>
+            <p className="ai-subtitle">Optimise for ATS & Impact</p>
           </div>
         </div>
         <Button variant="ghost" size="sm" onClick={onClose}>
