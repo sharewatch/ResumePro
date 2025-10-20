@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { FileText, Save, Download, Sparkles } from 'lucide-react';
+import { FileText, Save, Download, Sparkles, Upload } from 'lucide-react';
 import ResumeEditor from './ResumeEditor';
 import ResumePreview from './ResumePreview';
 import AIAssistant from './AIAssistant';
 import ExportDialog from './ExportDialog';
+import ResumeImport from './ResumeImport';
+import CoverLetter from './CoverLetter';
 import { mockResumeData } from '../mock';
 import axios from 'axios';
 import './ResumeBuilder.css';
@@ -20,7 +22,9 @@ const ResumeBuilder = () => {
   const [customColor, setCustomColor] = useState(null);
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
+  const [showImportDialog, setShowImportDialog] = useState(false);
   const [activeTab, setActiveTab] = useState('edit');
+  const [mainTab, setMainTab] = useState('resume');
   const [saveStatus, setSaveStatus] = useState('');
 
   const handleSave = async () => {
