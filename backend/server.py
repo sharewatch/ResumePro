@@ -425,6 +425,96 @@ async def get_resume(resume_id: str):
 async def analyze_ats(request: ATSAnalysisRequest):
     return await analyze_ats_with_ai(request.resumeData, request.jobDescription)
 
+# Resume Parsing
+@api_router.post("/parse-resume", response_model=ResumeData)
+async def parse_resume(file: UploadFile = File(...)):
+    """Parse uploaded resume file (PDF or DOCX)"""
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No file provided")
+    
+    file_ext = file.filename.lower().split('.')[-1]
+    
+    if file_ext not in ['pdf', 'docx']:
+        raise HTTPException(status_code=400, detail="Only PDF and DOCX files are supported")
+    
+    # Read file content
+    content = await file.read()
+    
+    # Extract text
+    if file_ext == 'pdf':
+        text = extract_text_from_pdf(content)
+    else:
+        text = extract_text_from_docx(content)
+    
+    # Parse with AI
+    return await parse_resume_with_ai(text)
+
+# Cover Letter
+@api_router.post("/cover-letter/generate", response_model=CoverLetterResponse)
+async def generate_cover_letter(request: CoverLetterRequest):
+    """Generate AI-powered cover letter"""
+    return await generate_cover_letter_with_ai(
+        request.resumeData,
+        request.jobDescription,
+        request.companyName,
+        request.jobTitle
+    )
+
+@api_router.post("/cover-letter/export/pdf")
+async def export_cover_letter_pdf(request: dict):
+    """Export cover letter as PDF"""
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter, topMargin=inch, bottomMargin=inch, leftMargin=inch, rightMargin=inch)
+    story = []
+    styles = getSampleStyleSheet()
+    
+    # Styles
+    name_style = ParagraphStyle('Name', parent=styles['Normal'], fontSize=12, fontName='Helvetica-Bold')
+    body_style = ParagraphStyle('Body', parent=styles['Normal'], fontSize=11, leading=16)
+    
+    # Personal info
+    personal_info = request.get('personalInfo', {})
+    name_text = personal_info.get('fullName', '')
+    contact_text = f"{personal_info.get('email', '')} | {personal_info.get('phone', '')} | {personal_info.get('location', '')}"
+    
+    story.append(Paragraph(name_text, name_style))
+    story.append(Paragraph(contact_text, styles['Normal']))
+    story.append(Spacer(1, 0.3*inch))
+    
+    # Date
+    from datetime import date
+    today = date.today().strftime("%d %B %Y")
+    story.append(Paragraph(today, styles['Normal']))
+    story.append(Spacer(1, 0.2*inch))
+    
+    # Company info
+    company_name = request.get('companyName', '')
+    job_title = request.get('jobTitle', '')
+    if company_name:
+        story.append(Paragraph(company_name, styles['Normal']))
+    if job_title:
+        story.append(Paragraph(f"Re: {job_title}", styles['Normal']))
+    story.append(Spacer(1, 0.3*inch))
+    
+    # Cover letter content
+    content = request.get('content', '')
+    paragraphs = content.split('\n\n')
+    for para in paragraphs:
+        if para.strip():
+            story.append(Paragraph(para.strip(), body_style))
+            story.append(Spacer(1, 0.2*inch))
+    
+    # Signature
+    story.append(Spacer(1, 0.3*inch))
+    story.append(Paragraph(f"Yours sincerely,<br/>{name_text}", styles['Normal']))
+    
+    doc.build(story)
+    buffer.seek(0)
+    
+    filename = f"{name_text.replace(' ', '_')}_Cover_Letter.pdf"
+    return StreamingResponse(buffer, media_type="application/pdf", headers={"Content-Disposition": f"attachment; filename={filename}"})
+
+# Export Routes
 @api_router.post("/export/pdf")
 async def export_pdf(request: ExportRequest):
     buffer = io.BytesIO()
