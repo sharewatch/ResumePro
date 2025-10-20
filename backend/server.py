@@ -141,6 +141,175 @@ class CoverLetterResponse(BaseModel):
     content: str
     suggestions: List[str] = []
 
+# Helper Functions
+def extract_text_from_pdf(file_content: bytes) -> str:
+    """Extract text from PDF file"""
+    try:
+        pdf_file = io.BytesIO(file_content)
+        with pdfplumber.open(pdf_file) as pdf:
+            text = ""
+            for page in pdf.pages:
+                text += page.extract_text() + "\n"
+        return text
+    except Exception as e:
+        logger.error(f"PDF extraction error: {str(e)}")
+        raise HTTPException(status_code=400, detail="Failed to extract text from PDF")
+
+def extract_text_from_docx(file_content: bytes) -> str:
+    """Extract text from DOCX file"""
+    try:
+        docx_file = io.BytesIO(file_content)
+        doc = DocxReader(docx_file)
+        text = ""
+        for para in doc.paragraphs:
+            text += para.text + "\n"
+        return text
+    except Exception as e:
+        logger.error(f"DOCX extraction error: {str(e)}")
+        raise HTTPException(status_code=400, detail="Failed to extract text from DOCX")
+
+async def parse_resume_with_ai(resume_text: str) -> ResumeData:
+    """Use OpenAI to parse resume text into structured data"""
+    
+    prompt = f"""Parse this resume text and extract structured information. Return JSON with these exact fields:
+
+{{
+  "personalInfo": {{
+    "fullName": "",
+    "email": "",
+    "phone": "",
+    "location": "",
+    "linkedin": "",
+    "portfolio": "",
+    "photo": ""
+  }},
+  "summary": "",
+  "experience": [
+    {{
+      "id": "exp1",
+      "title": "",
+      "company": "",
+      "location": "",
+      "startDate": "DD-MM-YYYY",
+      "endDate": "DD-MM-YYYY or Present",
+      "current": false,
+      "bullets": []
+    }}
+  ],
+  "education": [
+    {{
+      "id": "edu1",
+      "degree": "",
+      "school": "",
+      "location": "",
+      "graduationDate": "YYYY",
+      "gpa": ""
+    }}
+  ],
+  "skills": [],
+  "certifications": [],
+  "languages": []
+}}
+
+Resume Text:
+{resume_text}
+
+Extract all information accurately. For dates, use DD-MM-YYYY format. Leave fields empty if not found."""
+
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are an expert resume parser. Always return valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            response_format={"type": "json_object"}
+        )
+        
+        result = json.loads(response.choices[0].message.content)
+        
+        # Map to ResumeData model
+        return ResumeData(
+            personalInfo=PersonalInfo(**result.get('personalInfo', {})),
+            summary=result.get('summary', ''),
+            experience=[ExperienceItem(**exp) for exp in result.get('experience', [])],
+            education=[EducationItem(**edu) for edu in result.get('education', [])],
+            skills=result.get('skills', []),
+            certifications=[CertificationItem(**cert) for cert in result.get('certifications', [])],
+            languages=[LanguageItem(**lang) for lang in result.get('languages', [])]
+        )
+    except Exception as e:
+        logger.error(f"Resume parsing error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to parse resume")
+
+async def generate_cover_letter_with_ai(resume_data: ResumeData, job_description: str, company_name: str, job_title: str) -> CoverLetterResponse:
+    """Use OpenAI to generate cover letter"""
+    
+    resume_summary = f"""
+Name: {resume_data.personalInfo.fullName}
+Email: {resume_data.personalInfo.email}
+
+Summary: {resume_data.summary}
+
+Experience:
+{chr(10).join([f"- {exp.title} at {exp.company}" for exp in resume_data.experience[:3]])}
+
+Skills: {', '.join(resume_data.skills[:10])}
+
+Education:
+{chr(10).join([f"- {edu.degree} from {edu.school}" for edu in resume_data.education])}
+"""
+    
+    prompt = f"""Write a professional cover letter for this job application:
+
+Job Title: {job_title}
+Company: {company_name}
+
+Job Description:
+{job_description}
+
+Candidate Profile:
+{resume_summary}
+
+Write a compelling cover letter (300-400 words) that:
+1. Opens with enthusiasm for the role
+2. Highlights relevant experience and skills matching the job requirements
+3. Shows understanding of the company and role
+4. Demonstrates value the candidate would bring
+5. Closes with a strong call to action
+6. Uses British English spelling
+
+Also provide 2-3 suggestions for customisation.
+
+Return JSON:
+{{
+  "content": "<cover letter text with proper paragraphs>",
+  "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3"]
+}}
+"""
+    
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are an expert cover letter writer. Always use British English and return valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            response_format={"type": "json_object"}
+        )
+        
+        result = json.loads(response.choices[0].message.content)
+        
+        return CoverLetterResponse(
+            content=result.get('content', ''),
+            suggestions=result.get('suggestions', [])
+        )
+    except Exception as e:
+        logger.error(f"Cover letter generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to generate cover letter")
+
 # AI Analysis Function
 async def analyze_ats_with_ai(resume_data: ResumeData, job_description: str) -> ATSAnalysisResponse:
     """Use OpenAI to analyze resume against job description"""
