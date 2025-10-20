@@ -199,6 +199,36 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
         <TabsContent value="personal" className="editor-section">
           <h3 className="section-title">Personal Information</h3>
           <div className="form-grid">
+            <div className="form-field full-width">
+              <label>Profile Photo (Optional)</label>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      updatePersonalInfo('photo', reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
+              {resumeData.personalInfo.photo && (
+                <div className="photo-preview">
+                  <img src={resumeData.personalInfo.photo} alt="Profile" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => updatePersonalInfo('photo', '')}
+                    className="remove-photo-btn"
+                  >
+                    Remove Photo
+                  </Button>
+                </div>
+              )}
+            </div>
             <div className="form-field">
               <label>Full Name *</label>
               <Input
@@ -229,7 +259,7 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
               <Input
                 value={resumeData.personalInfo.location}
                 onChange={(e) => updatePersonalInfo('location', e.target.value)}
-                placeholder="City, State"
+                placeholder="City, Country"
               />
             </div>
             <div className="form-field">
