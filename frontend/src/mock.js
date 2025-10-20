@@ -7,7 +7,8 @@ export const mockResumeData = {
     phone: "+1 (555) 123-4567",
     location: "San Francisco, CA",
     linkedin: "linkedin.com/in/alexmorgan",
-    portfolio: "alexmorgan.dev"
+    portfolio: "alexmorgan.dev",
+    photo: ""
   },
   summary: "Results-driven Product Manager with 5+ years of experience leading cross-functional teams to deliver innovative AI-powered products. Proven track record of launching features that increased user engagement by 40% and revenue by $2M annually.",
   experience: [
@@ -16,12 +17,12 @@ export const mockResumeData = {
       title: "Senior Product Manager",
       company: "TechCorp AI",
       location: "San Francisco, CA",
-      startDate: "Jan 2021",
+      startDate: "01-01-2021",
       endDate: "Present",
       current: true,
       bullets: [
         "Led product strategy for AI-powered analytics platform serving 10,000+ enterprise users",
-        "Increased user engagement by 40% through data-driven feature prioritization",
+        "Increased user engagement by 40% through data-driven feature prioritisation",
         "Managed cross-functional team of 12 engineers, designers, and data scientists",
         "Launched 3 major features that generated $2M in additional annual revenue"
       ]
@@ -31,8 +32,8 @@ export const mockResumeData = {
       title: "Product Manager",
       company: "StartupHub",
       location: "San Francisco, CA",
-      startDate: "Jun 2019",
-      endDate: "Dec 2020",
+      startDate: "01-06-2019",
+      endDate: "31-12-2020",
       current: false,
       bullets: [
         "Defined product roadmap for B2B SaaS platform with 50+ clients",
