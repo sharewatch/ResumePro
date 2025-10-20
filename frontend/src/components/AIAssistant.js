@@ -6,21 +6,40 @@ import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { X, Target, TrendingUp, AlertCircle, Lightbulb, CheckCircle2 } from 'lucide-react';
-import { mockATSAnalysis, mockJobDescription } from '../mock';
+import { mockJobDescription } from '../mock';
+import axios from 'axios';
 import './AIAssistant.css';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const AIAssistant = ({ resumeData, onClose }) => {
   const [jobDescription, setJobDescription] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
+    if (!jobDescription.trim()) {
+      setError('Please paste a job description first');
+      return;
+    }
+
     setIsAnalyzing(true);
-    // Mock API call
-    setTimeout(() => {
-      setAnalysis(mockATSAnalysis);
+    setError('');
+    
+    try {
+      const response = await axios.post(`${API}/ai/analyze-ats`, {
+        resumeData,
+        jobDescription
+      });
+      setAnalysis(response.data);
+    } catch (err) {
+      console.error('Analysis failed:', err);
+      setError('Failed to analyze resume. Please try again.');
+    } finally {
       setIsAnalyzing(false);
-    }, 1500);
+    }
   };
 
   const loadSampleJD = () => {
