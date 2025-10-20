@@ -94,6 +94,7 @@ const AIAssistant = ({ resumeData, onClose }) => {
                 rows={6}
                 className="jd-textarea"
               />
+              {error && <p className="error-text">{error}</p>}
               <div className="jd-actions">
                 <Button
                   onClick={handleAnalyze}
