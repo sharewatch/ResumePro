@@ -253,7 +253,17 @@ Extract all information accurately. For dates, use DD-MM-YYYY format. Leave fiel
         )
     except Exception as e:
         logger.error(f"Resume parsing error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to parse resume")
+        # Return a basic structure with the extracted text in summary
+        # This allows the user to at least see something and edit manually
+        return ResumeData(
+            personalInfo=PersonalInfo(fullName="", email="", phone="", location=""),
+            summary=resume_text[:500] if len(resume_text) > 500 else resume_text,
+            experience=[],
+            education=[],
+            skills=[],
+            certifications=[],
+            languages=[]
+        )
 
 async def generate_cover_letter_with_ai(resume_data: ResumeData, job_description: str, company_name: str, job_title: str) -> CoverLetterResponse:
     """Use OpenAI to generate cover letter"""
