@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Plus, Trash2, GripVertical } from 'lucide-react';
+import TemplateSelector from './TemplateSelector';
 import './ResumeEditor.css';
 
 const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelectedTemplate }) => {
