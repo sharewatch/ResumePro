@@ -1,0 +1,224 @@
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Card } from './ui/card';
+import { Badge } from './ui/badge';
+import { FileText, Sparkles, Download, Loader2 } from 'lucide-react';
+import axios from 'axios';
+import './CoverLetter.css';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
+
+const CoverLetter = ({ resumeData }) => {
+  const [companyName, setCompanyName] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
+  const [coverLetterContent, setCoverLetterContent] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [generating, setGenerating] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!jobDescription.trim()) {
+      alert('Please enter a job description');
+      return;
+    }
+
+    setGenerating(true);
+
+    try {
+      const response = await axios.post(`${API}/cover-letter/generate`, {
+        resumeData,
+        jobDescription,
+        companyName,
+        jobTitle
+      });
+
+      setCoverLetterContent(response.data.content);
+      setSuggestions(response.data.suggestions || []);
+    } catch (error) {
+      console.error('Generation failed:', error);
+      alert('Failed to generate cover letter. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleExport = async () => {
+    if (!coverLetterContent) {
+      alert('Please generate a cover letter first');
+      return;
+    }
+
+    setExporting(true);
+
+    try {
+      const response = await axios.post(
+        `${API}/cover-letter/export/pdf`,
+        {
+          personalInfo: resumeData.personalInfo,
+          companyName,
+          jobTitle,
+          content: coverLetterContent
+        },
+        { responseType: 'blob' }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${resumeData.personalInfo.fullName.replace(/\s+/g, '_')}_Cover_Letter.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Failed to export cover letter. Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  return (
+    <div className="cover-letter-container">
+      <div className="cover-letter-header">
+        <div className="header-left">
+          <FileText size={28} />
+          <div>
+            <h2>Cover Letter Builder</h2>
+            <p>AI-powered cover letter generation tailored to your resume</p>
+          </div>
+        </div>
+        {coverLetterContent && (
+          <Button onClick={handleExport} disabled={exporting}>
+            <Download size={16} />
+            {exporting ? 'Exporting...' : 'Export PDF'}
+          </Button>
+        )}
+      </div>
+
+      <Tabs defaultValue="create" className="cover-letter-tabs">
+        <TabsList>
+          <TabsTrigger value="create">Create</TabsTrigger>
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="create" className="create-tab">
+          <Card className="input-section">
+            <h3>Job Details</h3>
+            <div className="form-grid">
+              <div className="form-field">
+                <label>Company Name</label>
+                <Input
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  placeholder="e.g., Google"
+                />
+              </div>
+              <div className="form-field">
+                <label>Job Title</label>
+                <Input
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  placeholder="e.g., Senior Product Manager"
+                />
+              </div>
+            </div>
+            <div className="form-field full-width">
+              <label>Job Description *</label>
+              <Textarea
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                placeholder="Paste the full job description here..."
+                rows={8}
+              />
+            </div>
+            <Button
+              onClick={handleGenerate}
+              disabled={generating || !jobDescription.trim()}
+              className="generate-btn"
+            >
+              {generating ? (
+                <>
+                  <Loader2 size={16} className="spinning" />
+                  Generating with AI...
+                </>
+              ) : (
+                <>
+                  <Sparkles size={16} />
+                  Generate Cover Letter
+                </>
+              )}
+            </Button>
+          </Card>
+
+          {coverLetterContent && (
+            <Card className="editor-section">
+              <h3>Edit Cover Letter</h3>
+              <Textarea
+                value={coverLetterContent}
+                onChange={(e) => setCoverLetterContent(e.target.value)}
+                rows={20}
+                className="cover-letter-textarea"
+              />
+            </Card>
+          )}
+
+          {suggestions.length > 0 && (
+            <Card className="suggestions-section">
+              <h3>
+                <Sparkles size={20} />
+                AI Suggestions
+              </h3>
+              <ul className="suggestions-list">
+                {suggestions.map((suggestion, idx) => (
+                  <li key={idx}>
+                    <Badge variant="secondary" className="suggestion-badge">
+                      Tip {idx + 1}
+                    </Badge>
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="preview" className="preview-tab">
+          {coverLetterContent ? (
+            <Card className="preview-card">
+              <div className="preview-header">
+                <div>
+                  <h3>{resumeData.personalInfo.fullName}</h3>
+                  <p>{resumeData.personalInfo.email} | {resumeData.personalInfo.phone}</p>
+                  {resumeData.personalInfo.location && <p>{resumeData.personalInfo.location}</p>}
+                </div>
+              </div>
+              <div className="preview-body">
+                <p className="date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                {companyName && <p className="company">{companyName}</p>}
+                {jobTitle && <p className="job-title">Re: {jobTitle}</p>}
+                <div className="letter-content">
+                  {coverLetterContent.split('\n\n').map((para, idx) => (
+                    <p key={idx}>{para}</p>
+                  ))}
+                </div>
+                <p className="signature">Yours sincerely,<br/>{resumeData.personalInfo.fullName}</p>
+              </div>
+            </Card>
+          ) : (
+            <div className="empty-preview">
+              <FileText size={64} className="empty-icon" />
+              <p>Generate a cover letter to see the preview</p>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default CoverLetter;
