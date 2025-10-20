@@ -415,7 +415,7 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
               
               <div className="form-grid">
                 <div className="form-field full-width">
-                  <label>Degree *</label>
+                  <label>School Level/University Degree *</label>
                   <Input
                     value={edu.degree}
                     onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
@@ -423,7 +423,7 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
                   />
                 </div>
                 <div className="form-field">
-                  <label>School *</label>
+                  <label>School/University *</label>
                   <Input
                     value={edu.school}
                     onChange={(e) => updateEducation(edu.id, 'school', e.target.value)}
@@ -435,7 +435,7 @@ const ResumeEditor = ({ resumeData, setResumeData, selectedTemplate, setSelected
                   <Input
                     value={edu.location}
                     onChange={(e) => updateEducation(edu.id, 'location', e.target.value)}
-                    placeholder="City, State"
+                    placeholder="City, Country"
                   />
                 </div>
                 <div className="form-field">
