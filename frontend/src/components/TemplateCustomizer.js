@@ -46,6 +46,14 @@ const TemplateCustomizer = ({ customization, onCustomizationChange }) => {
     onCustomizationChange({ ...customization, fontSize: value[0] });
   };
 
+  const handleLineHeightChange = (value) => {
+    onCustomizationChange({ ...customization, lineHeight: value[0] });
+  };
+
+  const handleMarginChange = (value) => {
+    onCustomizationChange({ ...customization, margin: value[0] });
+  };
+
   const handleSectionOrderChange = (newOrder) => {
     onCustomizationChange({ ...customization, sectionOrder: newOrder });
   };
