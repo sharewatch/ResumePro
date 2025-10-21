@@ -11,6 +11,11 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, date
 from openai import OpenAI
+from emergentintegrations.llm.chat import LlmChat, UserMessage
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 import io
 import json
 from docx import Document
