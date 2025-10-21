@@ -13,9 +13,16 @@ const TemplateCustomizer = ({ customization, onCustomizationChange }) => {
     { value: 'roboto', label: 'Roboto (Clean Sans-serif)' },
     { value: 'lato', label: 'Lato (Professional Sans-serif)' },
     { value: 'open-sans', label: 'Open Sans (Friendly Sans-serif)' },
+    { value: 'playfair', label: 'Playfair Display (Elegant Serif)' },
     { value: 'georgia', label: 'Georgia (Classic Serif)' },
-    { value: 'merriweather', label: 'Merriweather (Elegant Serif)' },
+    { value: 'merriweather', label: 'Merriweather (Readable Serif)' },
     { value: 'source-code-pro', label: 'Source Code Pro (Tech Monospace)' }
+  ];
+
+  const lineHeightOptions = [
+    { value: 1.4, label: 'Compact' },
+    { value: 1.6, label: 'Normal' },
+    { value: 1.8, label: 'Relaxed' }
   ];
 
   const sections = [
