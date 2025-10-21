@@ -422,6 +422,137 @@ const ResumeScore = ({ resumeData }) => {
         </Card>
       )}
 
+      {/* ATS Compatibility Score */}
+      {score.analytics && (
+        <Card className="ats-score-card">
+          <h3>ATS Compatibility Score</h3>
+          <div className="ats-score-content">
+            <div className="ats-score-circle">
+              <div className="ats-percentage" style={{ color: getScoreColor(score.analytics.atsScore) }}>
+                {score.analytics.atsScore}%
+              </div>
+              <div className="ats-label">ATS Friendly</div>
+            </div>
+            <div className="ats-details">
+              <p>Your resume's compatibility with Applicant Tracking Systems</p>
+              <div className="ats-checks">
+                <div className="ats-check-item">
+                  <CheckCircle2 size={16} style={{ color: score.analytics.keywords.actionVerbsCount >= 5 ? '#22c55e' : '#94a3b8' }} />
+                  <span>Action Verbs: {score.analytics.keywords.actionVerbsCount}</span>
+                </div>
+                <div className="ats-check-item">
+                  <CheckCircle2 size={16} style={{ color: score.analytics.keywords.metricsCount >= 3 ? '#22c55e' : '#94a3b8' }} />
+                  <span>Quantifiable Metrics: {score.analytics.keywords.metricsCount}</span>
+                </div>
+                <div className="ats-check-item">
+                  <CheckCircle2 size={16} style={{ color: score.analytics.keywords.totalKeywords >= 10 ? '#22c55e' : '#94a3b8' }} />
+                  <span>Keywords: {score.analytics.keywords.totalKeywords}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Keyword Analysis */}
+      {score.analytics && (
+        <Card className="keyword-analysis-card">
+          <h3>Keyword Analysis</h3>
+          <div className="keyword-sections">
+            <div className="keyword-section">
+              <div className="keyword-section-header">
+                <span>Action Verbs</span>
+                <Badge>{score.analytics.keywords.actionVerbsCount}</Badge>
+              </div>
+              <div className="keyword-tags">
+                {score.analytics.keywords.actionVerbs.slice(0, 10).map((verb, idx) => (
+                  <span key={idx} className="keyword-tag">{verb}</span>
+                ))}
+                {score.analytics.keywords.actionVerbsCount === 0 && (
+                  <p className="no-keywords">No action verbs found. Add words like: managed, developed, led, implemented</p>
+                )}
+              </div>
+            </div>
+            <div className="keyword-section">
+              <div className="keyword-section-header">
+                <span>Technical Keywords</span>
+                <Badge>{score.analytics.keywords.technicalCount}</Badge>
+              </div>
+              <div className="keyword-tags">
+                {score.analytics.keywords.technicalKeywords.slice(0, 10).map((keyword, idx) => (
+                  <span key={idx} className="keyword-tag">{keyword}</span>
+                ))}
+                {score.analytics.keywords.technicalCount === 0 && (
+                  <p className="no-keywords">Consider adding industry-specific technical keywords</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Formatting Analysis */}
+      {score.analytics && (
+        <Card className="formatting-card">
+          <h3>Formatting & Best Practices</h3>
+          <div className="formatting-checks">
+            <div className={`format-check ${score.analytics.formatting.checks.hasActionVerbs ? 'pass' : 'fail'}`}>
+              {score.analytics.formatting.checks.hasActionVerbs ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+              <div>
+                <div className="format-check-title">Action Verbs Used</div>
+                <div className="format-check-desc">Starts bullet points with strong action verbs</div>
+              </div>
+            </div>
+            <div className={`format-check ${score.analytics.formatting.checks.hasMetrics ? 'pass' : 'fail'}`}>
+              {score.analytics.formatting.checks.hasMetrics ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+              <div>
+                <div className="format-check-title">Quantifiable Results</div>
+                <div className="format-check-desc">Includes numbers, percentages, or metrics</div>
+              </div>
+            </div>
+            <div className={`format-check ${score.analytics.formatting.checks.noPronouns ? 'pass' : 'fail'}`}>
+              {score.analytics.formatting.checks.noPronouns ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+              <div>
+                <div className="format-check-title">No First-Person Pronouns</div>
+                <div className="format-check-desc">Avoids using I, me, my, we, our</div>
+              </div>
+            </div>
+            <div className={`format-check ${score.analytics.formatting.checks.bulletPointsOptimal ? 'pass' : 'fail'}`}>
+              {score.analytics.formatting.checks.bulletPointsOptimal ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+              <div>
+                <div className="format-check-title">Optimal Bullet Points</div>
+                <div className="format-check-desc">3-5 bullets per experience entry</div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Length Analysis */}
+      {score.analytics && (
+        <Card className="length-analysis-card">
+          <h3>Length Analysis</h3>
+          <div className="length-content">
+            <div className="length-stat">
+              <div className="length-number">{score.analytics.wordCount.total}</div>
+              <div className="length-label">Total Words</div>
+            </div>
+            <div className="length-details">
+              <p>Optimal Range: {score.analytics.wordCount.optimal.min}-{score.analytics.wordCount.optimal.max} words</p>
+              <Progress 
+                value={(score.analytics.wordCount.total / score.analytics.wordCount.optimal.max) * 100} 
+                className="length-progress"
+              />
+              <Badge className={`length-badge ${score.analytics.wordCount.status}`}>
+                {score.analytics.wordCount.status === 'optimal' && '✓ Optimal Length'}
+                {score.analytics.wordCount.status === 'short' && 'Too Short'}
+                {score.analytics.wordCount.status === 'long' && 'Too Long'}
+              </Badge>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* Quick Stats */}
       <div className="quick-stats">
         <Card className="stat-card">
