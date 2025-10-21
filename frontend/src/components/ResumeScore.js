@@ -93,11 +93,154 @@ const ResumeScore = ({ resumeData }) => {
     sections.additional = { score: additionalScore, max: 5 };
     totalScore += additionalScore;
 
+    // Calculate analytics
+    const analytics = calculateAnalytics(resumeData);
+
     return {
       overall: Math.round(totalScore),
       sections,
-      suggestions: generateSuggestions(sections, resumeData)
+      suggestions: generateSuggestions(sections, resumeData, analytics),
+      analytics
     };
+  };
+
+  const calculateAnalytics = (data) => {
+    // Keywords Analysis
+    const keywords = extractKeywords(data);
+    
+    // Length Analysis
+    const wordCount = calculateWordCount(data);
+    
+    // Formatting Analysis
+    const formatting = analyzeFormatting(data);
+    
+    // ATS Compatibility
+    const atsScore = calculateATSScore(data, keywords, formatting);
+    
+    return {
+      keywords,
+      wordCount,
+      formatting,
+      atsScore
+    };
+  };
+
+  const extractKeywords = (data) => {
+    const text = [
+      data.summary || '',
+      ...data.experience.flatMap(exp => exp.bullets || []),
+      ...data.skills
+    ].join(' ').toLowerCase();
+
+    // Action verbs
+    const actionVerbs = ['led', 'managed', 'developed', 'created', 'designed', 'implemented', 
+      'improved', 'increased', 'launched', 'achieved', 'delivered', 'built', 'established',
+      'coordinated', 'optimized', 'streamlined', 'collaborated', 'analyzed', 'spearheaded'];
+    
+    const foundActionVerbs = actionVerbs.filter(verb => text.includes(verb));
+
+    // Technical skills (common keywords)
+    const technicalKeywords = ['javascript', 'python', 'java', 'react', 'node', 'sql', 'aws',
+      'docker', 'kubernetes', 'api', 'agile', 'scrum', 'git', 'ci/cd', 'typescript', 'mongodb'];
+    
+    const foundTechnical = technicalKeywords.filter(keyword => text.includes(keyword));
+
+    // Metrics/Numbers
+    const metricsCount = (text.match(/\d+%|\$\d+|\d+\+/g) || []).length;
+
+    return {
+      actionVerbs: foundActionVerbs,
+      actionVerbsCount: foundActionVerbs.length,
+      technicalKeywords: foundTechnical,
+      technicalCount: foundTechnical.length,
+      metricsCount,
+      totalKeywords: data.skills.length
+    };
+  };
+
+  const calculateWordCount = (data) => {
+    let total = 0;
+    
+    if (data.summary) total += data.summary.split(/\s+/).length;
+    data.experience.forEach(exp => {
+      exp.bullets.forEach(bullet => {
+        if (bullet) total += bullet.split(/\s+/).length;
+      });
+    });
+
+    const optimal = { min: 400, max: 600 };
+    const status = total < optimal.min ? 'short' : total > optimal.max ? 'long' : 'optimal';
+
+    return {
+      total,
+      optimal,
+      status
+    };
+  };
+
+  const analyzeFormatting = (data) => {
+    const checks = {
+      hasActionVerbs: false,
+      hasMetrics: false,
+      hasConsistentDates: true,
+      bulletPointsOptimal: true,
+      noPronouns: true
+    };
+
+    // Check for action verbs
+    const expText = data.experience.flatMap(exp => exp.bullets || []).join(' ').toLowerCase();
+    const actionVerbs = ['led', 'managed', 'developed', 'created', 'designed', 'implemented'];
+    checks.hasActionVerbs = actionVerbs.some(verb => expText.includes(verb));
+
+    // Check for metrics
+    checks.hasMetrics = /\d+%|\$\d+|\d+\+/.test(expText);
+
+    // Check bullet points
+    data.experience.forEach(exp => {
+      if (exp.bullets.length < 2 || exp.bullets.length > 6) {
+        checks.bulletPointsOptimal = false;
+      }
+    });
+
+    // Check for pronouns (I, me, my, we)
+    checks.noPronouns = !/\b(i|me|my|we|our)\b/i.test(data.summary + ' ' + expText);
+
+    const passedChecks = Object.values(checks).filter(Boolean).length;
+    const totalChecks = Object.keys(checks).length;
+
+    return {
+      checks,
+      score: Math.round((passedChecks / totalChecks) * 100)
+    };
+  };
+
+  const calculateATSScore = (data, keywords, formatting) => {
+    let score = 0;
+
+    // Keywords presence (40 points)
+    if (keywords.actionVerbsCount >= 10) score += 20;
+    else if (keywords.actionVerbsCount >= 5) score += 10;
+    
+    if (keywords.totalKeywords >= 15) score += 20;
+    else if (keywords.totalKeywords >= 10) score += 10;
+
+    // Metrics presence (20 points)
+    if (keywords.metricsCount >= 5) score += 20;
+    else if (keywords.metricsCount >= 3) score += 10;
+
+    // Formatting (20 points)
+    if (formatting.checks.hasActionVerbs) score += 5;
+    if (formatting.checks.hasMetrics) score += 5;
+    if (formatting.checks.hasConsistentDates) score += 5;
+    if (formatting.checks.noPronouns) score += 5;
+
+    // Section completeness (20 points)
+    if (data.personalInfo.email && data.personalInfo.phone) score += 5;
+    if (data.summary && data.summary.length > 100) score += 5;
+    if (data.experience.length >= 2) score += 5;
+    if (data.skills.length >= 10) score += 5;
+
+    return Math.min(score, 100);
   };
 
   const generateSuggestions = (sections, data) => {
