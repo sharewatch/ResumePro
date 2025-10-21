@@ -62,9 +62,37 @@ const ResumeBuilder = () => {
   };
 
   const handleImportComplete = (parsedData) => {
-    setResumeData(parsedData);
+    console.log('Parsed data received:', parsedData);
+    
+    // Merge imported data with existing structure
+    const importedData = {
+      personalInfo: {
+        ...resumeData.personalInfo,
+        ...parsedData.personalInfo
+      },
+      summary: parsedData.summary || resumeData.summary,
+      experience: parsedData.experience && parsedData.experience.length > 0 
+        ? parsedData.experience 
+        : resumeData.experience,
+      education: parsedData.education && parsedData.education.length > 0 
+        ? parsedData.education 
+        : resumeData.education,
+      skills: parsedData.skills && parsedData.skills.length > 0 
+        ? parsedData.skills 
+        : resumeData.skills,
+      certifications: parsedData.certifications && parsedData.certifications.length > 0 
+        ? parsedData.certifications 
+        : resumeData.certifications,
+      languages: parsedData.languages && parsedData.languages.length > 0 
+        ? parsedData.languages 
+        : resumeData.languages
+    };
+    
+    console.log('Merged data:', importedData);
+    setResumeData(importedData);
     setShowImportDialog(false);
     setMainTab('resume');
+    setEditorTab('personal'); // Switch to personal info tab to show imported data
     setSaveStatus('imported');
     setTimeout(() => setSaveStatus(''), 2000);
   };
