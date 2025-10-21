@@ -156,6 +156,38 @@ const TemplateCustomizer = ({ customization, onCustomizationChange }) => {
               <span>Large</span>
             </div>
           </div>
+          <div className="form-field">
+            <Label>Line Height: {customization.lineHeight || 1.6}</Label>
+            <Slider
+              value={[customization.lineHeight || 1.6]}
+              onValueChange={handleLineHeightChange}
+              min={1.3}
+              max={2.0}
+              step={0.1}
+              className="spacing-slider"
+            />
+            <div className="slider-labels">
+              <span>Tight</span>
+              <span>Normal</span>
+              <span>Loose</span>
+            </div>
+          </div>
+          <div className="form-field">
+            <Label>Page Margins: {customization.margin || 1}x</Label>
+            <Slider
+              value={[customization.margin || 1]}
+              onValueChange={handleMarginChange}
+              min={0.5}
+              max={1.5}
+              step={0.1}
+              className="spacing-slider"
+            />
+            <div className="slider-labels">
+              <span>Narrow</span>
+              <span>Normal</span>
+              <span>Wide</span>
+            </div>
+          </div>
         </Card>
 
         {/* Section Ordering */}
