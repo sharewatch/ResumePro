@@ -233,3 +233,7 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "Phase 1 Complete: Created ResumeTemplatesEnhanced.css with professional styling for Timeline, Infographic, and Bold Visual templates. All styles are properly scoped with .template-* classes, includes responsive design for mobile, hover effects, and smooth transitions. Ready to move to Phase 2 pending features."
+  - agent: "main"
+    message: "Phase 2.1 & 2.2 Complete: Implemented comprehensive Resume Score & Analytics Dashboard with ATS compatibility, keyword analysis, formatting checks, and length analysis. Implemented Advanced Template Customization with 8 fonts, spacing/size/line height/margin sliders, and section ordering. Phase 2.3 IN PROGRESS: Fixed PDF import issue - backend was using direct OpenAI SDK with Emergent LLM key (causing 401 errors). Updated parse_resume_with_ai to use emergentintegrations.llm.chat.LlmChat. Testing needed."
+  - agent: "user"
+    message: "Bug Report: When importing PDF resume it doesn't appear anywhere after upload"
