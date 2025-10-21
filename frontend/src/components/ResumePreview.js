@@ -110,6 +110,7 @@ const getFontFamily = (font) => {
     'roboto': "'Roboto', sans-serif",
     'lato': "'Lato', sans-serif",
     'open-sans': "'Open Sans', sans-serif",
+    'playfair': "'Playfair Display', serif",
     'georgia': "'Georgia', serif",
     'merriweather': "'Merriweather', serif",
     'source-code-pro': "'Source Code Pro', monospace"
