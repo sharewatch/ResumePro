@@ -326,3 +326,263 @@ export const MinimalistTemplate = ({ resumeData, templateStyles }) => {
     </div>
   );
 };
+
+// Timeline Template (Enhancv-inspired)
+export const TimelineTemplate = ({ resumeData, templateStyles }) => {
+  const { personalInfo, summary, experience, education, skills } = resumeData;
+  
+  return (
+    <div className="template-timeline">
+      <div className="timeline-header" style={{ backgroundColor: templateStyles.accentColor }}>
+        {personalInfo.photo && (
+          <div className="timeline-photo">
+            <img src={personalInfo.photo} alt={personalInfo.fullName} />
+          </div>
+        )}
+        <h1>{personalInfo.fullName}</h1>
+        <div className="contact-row">
+          {personalInfo.email} • {personalInfo.phone} • {personalInfo.location}
+        </div>
+      </div>
+
+      <div className="timeline-body">
+        {summary && (
+          <section className="timeline-section">
+            <p className="summary-text">{summary}</p>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section className="timeline-section">
+            <h2 style={{ color: templateStyles.accentColor }}>Career Journey</h2>
+            <div className="timeline-container">
+              {experience.map((exp, index) => (
+                <div key={exp.id} className="timeline-item">
+                  <div className="timeline-marker" style={{ backgroundColor: templateStyles.accentColor }}>
+                    <div className="timeline-dot"></div>
+                  </div>
+                  <div className="timeline-content">
+                    <div className="timeline-date" style={{ color: templateStyles.accentColor }}>
+                      {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
+                    </div>
+                    <h3>{exp.title}</h3>
+                    <p className="company">{exp.company}</p>
+                    <ul>
+                      {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="timeline-grid">
+          {education.length > 0 && (
+            <section className="timeline-section">
+              <h2 style={{ color: templateStyles.accentColor }}>Education</h2>
+              {education.map((edu) => (
+                <div key={edu.id} className="edu-item">
+                  <strong>{edu.degree}</strong>
+                  <p>{edu.school} • {edu.graduationDate}</p>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {skills.length > 0 && (
+            <section className="timeline-section">
+              <h2 style={{ color: templateStyles.accentColor }}>Skills</h2>
+              <div className="skills-tags">
+                {skills.map((skill, idx) => skill && (
+                  <span key={idx} className="skill-tag" style={{ borderColor: templateStyles.accentColor, color: templateStyles.accentColor }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Infographic Template (Enhancv-inspired)
+export const InfographicTemplate = ({ resumeData, templateStyles }) => {
+  const { personalInfo, summary, experience, education, skills } = resumeData;
+  
+  return (
+    <div className="template-infographic">
+      <aside className="infographic-sidebar" style={{ backgroundColor: `${templateStyles.accentColor}15` }}>
+        {personalInfo.photo && (
+          <div className="infographic-photo">
+            <img src={personalInfo.photo} alt={personalInfo.fullName} />
+          </div>
+        )}
+
+        <h1 className="sidebar-name" style={{ color: templateStyles.accentColor }}>{personalInfo.fullName}</h1>
+        
+        <div className="contact-section">
+          <h3 style={{ color: templateStyles.accentColor }}>Contact</h3>
+          <div className="contact-item">
+            <span>📧</span> {personalInfo.email}
+          </div>
+          <div className="contact-item">
+            <span>📱</span> {personalInfo.phone}
+          </div>
+          <div className="contact-item">
+            <span>📍</span> {personalInfo.location}
+          </div>
+        </div>
+
+        {skills.length > 0 && (
+          <div className="skills-visual">
+            <h3 style={{ color: templateStyles.accentColor }}>Skills</h3>
+            {skills.slice(0, 8).map((skill, idx) => skill && (
+              <div key={idx} className="skill-bar-item">
+                <span className="skill-name">{skill}</span>
+                <div className="skill-bar-bg">
+                  <div 
+                    className="skill-bar-fill" 
+                    style={{ 
+                      backgroundColor: templateStyles.accentColor,
+                      width: `${90 - (idx * 5)}%`
+                    }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </aside>
+
+      <main className="infographic-main">
+        {summary && (
+          <section className="infographic-section">
+            <h2 className="section-title" style={{ borderLeftColor: templateStyles.accentColor }}>About Me</h2>
+            <p>{summary}</p>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section className="infographic-section">
+            <h2 className="section-title" style={{ borderLeftColor: templateStyles.accentColor }}>Experience</h2>
+            {experience.map((exp) => (
+              <div key={exp.id} className="experience-block">
+                <div className="exp-header-infographic">
+                  <div>
+                    <h3 style={{ color: templateStyles.accentColor }}>{exp.title}</h3>
+                    <p className="company">{exp.company}</p>
+                  </div>
+                  <span className="date-badge" style={{ backgroundColor: `${templateStyles.accentColor}20`, color: templateStyles.accentColor }}>
+                    {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
+                  </span>
+                </div>
+                <ul>
+                  {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
+                </ul>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {education.length > 0 && (
+          <section className="infographic-section">
+            <h2 className="section-title" style={{ borderLeftColor: templateStyles.accentColor }}>Education</h2>
+            {education.map((edu) => (
+              <div key={edu.id} className="education-block">
+                <h3>{edu.degree}</h3>
+                <p>{edu.school} • {edu.graduationDate}</p>
+              </div>
+            ))}
+          </section>
+        )}
+      </main>
+    </div>
+  );
+};
+
+// Bold Visual Template
+export const BoldVisualTemplate = ({ resumeData, templateStyles }) => {
+  const { personalInfo, summary, experience, education, skills } = resumeData;
+  
+  return (
+    <div className="template-bold-visual">
+      <div className="bold-sidebar">
+        <div className="bold-header" style={{ backgroundColor: templateStyles.accentColor }}>
+          {personalInfo.photo && (
+            <div className="bold-photo">
+              <img src={personalInfo.photo} alt={personalInfo.fullName} />
+            </div>
+          )}
+          <h1>{personalInfo.fullName}</h1>
+        </div>
+
+        <div className="bold-contact">
+          {personalInfo.email && <div>✉️ {personalInfo.email}</div>}
+          {personalInfo.phone && <div>📞 {personalInfo.phone}</div>}
+          {personalInfo.location && <div>📍 {personalInfo.location}</div>}
+        </div>
+
+        {skills.length > 0 && (
+          <div className="bold-skills">
+            <h3 style={{ color: templateStyles.accentColor }}>EXPERTISE</h3>
+            <div className="skills-badges">
+              {skills.map((skill, idx) => skill && (
+                <span key={idx} className="skill-badge" style={{ backgroundColor: templateStyles.accentColor }}>
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <main className="bold-main">
+        {summary && (
+          <section className="bold-section">
+            <div className="section-header-bold" style={{ backgroundColor: `${templateStyles.accentColor}15` }}>
+              <h2 style={{ color: templateStyles.accentColor }}>PROFILE</h2>
+            </div>
+            <p className="summary-text">{summary}</p>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section className="bold-section">
+            <div className="section-header-bold" style={{ backgroundColor: `${templateStyles.accentColor}15` }}>
+              <h2 style={{ color: templateStyles.accentColor }}>EXPERIENCE</h2>
+            </div>
+            {experience.map((exp) => (
+              <div key={exp.id} className="bold-experience">
+                <div className="exp-title-row">
+                  <h3>{exp.title}</h3>
+                  <span className="dates">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                </div>
+                <p className="company-bold" style={{ color: templateStyles.accentColor }}>{exp.company}</p>
+                <ul>
+                  {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
+                </ul>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {education.length > 0 && (
+          <section className="bold-section">
+            <div className="section-header-bold" style={{ backgroundColor: `${templateStyles.accentColor}15` }}>
+              <h2 style={{ color: templateStyles.accentColor }}>EDUCATION</h2>
+            </div>
+            {education.map((edu) => (
+              <div key={edu.id} className="bold-edu">
+                <h3>{edu.degree}</h3>
+                <p>{edu.school} • {edu.graduationDate}</p>
+              </div>
+            ))}
+          </section>
+        )}
+      </main>
+    </div>
+  );
+};
