@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
 import { TraditionalTemplate, TwoColumnTemplate, ModernCreativeTemplate, MinimalistTemplate } from './ResumeTemplates';
 import './ResumePreview.css';
 
-const ResumePreview = ({ resumeData, template, customColor, onColorChange }) => {
+const ResumePreview = ({ resumeData, template, customColor, onColorChange, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills, certifications, languages } = resumeData;
 
   // Template-specific styling
