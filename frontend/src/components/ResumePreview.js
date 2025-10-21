@@ -87,11 +87,32 @@ const ResumePreview = ({ resumeData, template, customColor, onColorChange, custo
         </div>
       </div>
 
-      <div className="preview-container">
+      <div 
+        className="preview-container"
+        style={{
+          fontFamily: getFontFamily(customization.font),
+          fontSize: `${(customization.fontSize || 1) * 100}%`,
+          '--section-spacing': `${(customization.spacing || 1) * 1.5}rem`
+        }}
+      >
         {renderTemplate()}
       </div>
     </div>
   );
+};
+
+// Helper function to get font family
+const getFontFamily = (font) => {
+  const fontMap = {
+    'inter': "'Inter', sans-serif",
+    'roboto': "'Roboto', sans-serif",
+    'lato': "'Lato', sans-serif",
+    'open-sans': "'Open Sans', sans-serif",
+    'georgia': "'Georgia', serif",
+    'merriweather': "'Merriweather', serif",
+    'source-code-pro': "'Source Code Pro', monospace"
+  };
+  return fontMap[font] || fontMap['inter'];
 };
 
 export default ResumePreview;
