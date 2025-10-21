@@ -173,6 +173,7 @@ const ResumeBuilder = () => {
                     template={selectedTemplate}
                     customColor={customColor}
                     onColorChange={setCustomColor}
+                    customization={customization}
                   />
                 </TabsContent>
               </Tabs>
