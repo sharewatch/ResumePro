@@ -92,7 +92,7 @@ const ResumeBuilder = () => {
     setResumeData(importedData);
     setShowImportDialog(false);
     setMainTab('resume');
-    setEditorTab('personal'); // Switch to personal info tab to show imported data
+    setActiveTab('edit'); // Switch to edit tab to show imported data
     setSaveStatus('imported');
     setTimeout(() => setSaveStatus(''), 2000);
   };
