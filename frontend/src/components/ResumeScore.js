@@ -243,7 +243,7 @@ const ResumeScore = ({ resumeData }) => {
     return Math.min(score, 100);
   };
 
-  const generateSuggestions = (sections, data) => {
+  const generateSuggestions = (sections, data, analytics) => {
     const suggestions = [];
 
     if (sections.personalInfo.score < 15) {
@@ -279,6 +279,49 @@ const ResumeScore = ({ resumeData }) => {
         type: 'info',
         message: 'Consider adding relevant certifications to stand out'
       });
+    }
+
+    // Analytics-based suggestions
+    if (analytics) {
+      if (analytics.keywords.actionVerbsCount < 5) {
+        suggestions.push({
+          type: 'warning',
+          message: 'Use more action verbs (managed, developed, led, etc.) to strengthen your experience descriptions'
+        });
+      }
+
+      if (analytics.keywords.metricsCount < 3) {
+        suggestions.push({
+          type: 'critical',
+          message: 'Add quantifiable metrics (percentages, numbers, dollar amounts) to demonstrate impact'
+        });
+      }
+
+      if (analytics.wordCount.status === 'short') {
+        suggestions.push({
+          type: 'warning',
+          message: `Your resume has ${analytics.wordCount.total} words. Aim for ${analytics.wordCount.optimal.min}-${analytics.wordCount.optimal.max} words for optimal impact`
+        });
+      } else if (analytics.wordCount.status === 'long') {
+        suggestions.push({
+          type: 'warning',
+          message: `Your resume has ${analytics.wordCount.total} words. Consider condensing to ${analytics.wordCount.optimal.min}-${analytics.wordCount.optimal.max} words`
+        });
+      }
+
+      if (!analytics.formatting.checks.noPronouns) {
+        suggestions.push({
+          type: 'info',
+          message: 'Remove first-person pronouns (I, me, my) - use action verbs instead'
+        });
+      }
+
+      if (!analytics.formatting.checks.bulletPointsOptimal) {
+        suggestions.push({
+          type: 'info',
+          message: 'Keep 3-5 bullet points per experience for optimal readability'
+        });
+      }
     }
 
     return suggestions;
