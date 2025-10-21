@@ -186,9 +186,9 @@ def extract_text_from_docx(file_content: bytes) -> str:
         raise HTTPException(status_code=400, detail="Failed to extract text from DOCX")
 
 async def parse_resume_with_ai(resume_text: str) -> ResumeData:
-    """Use OpenAI to parse resume text into structured data"""
+    """Use Emergent LLM to parse resume text into structured data"""
     
-    prompt = f"""Parse this resume text and extract structured information. Return JSON with these exact fields:
+    prompt = f"""Parse this resume text and extract structured information. Return ONLY a JSON object with these exact fields (no markdown, no code blocks):
 
 {{
   "personalInfo": {{
@@ -231,20 +231,32 @@ async def parse_resume_with_ai(resume_text: str) -> ResumeData:
 Resume Text:
 {resume_text}
 
-Extract all information accurately. For dates, use DD-MM-YYYY format. Leave fields empty if not found."""
+Extract all information accurately. For dates, use DD-MM-YYYY format. Generate unique IDs for each item (exp1, exp2, edu1, etc.). Leave fields empty if not found. Return ONLY the JSON object."""
 
     try:
-        response = openai_client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are an expert resume parser. Always return valid JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3,
-            response_format={"type": "json_object"}
-        )
+        # Initialize LlmChat with Emergent LLM key
+        chat = LlmChat(
+            api_key=os.environ.get('EMERGENT_LLM_KEY'),
+            session_id=f"resume_parse_{uuid.uuid4().hex[:8]}",
+            system_message="You are an expert resume parser. Always return valid JSON without markdown formatting."
+        ).with_model("openai", "gpt-4o-mini")
         
-        result = json.loads(response.choices[0].message.content)
+        # Create user message
+        user_message = UserMessage(text=prompt)
+        
+        # Send message and get response
+        response = await chat.send_message(user_message)
+        
+        # Clean response (remove markdown code blocks if present)
+        response_text = response.strip()
+        if response_text.startswith('```'):
+            # Remove markdown code blocks
+            response_text = response_text.split('```')[1]
+            if response_text.startswith('json'):
+                response_text = response_text[4:]
+            response_text = response_text.strip()
+        
+        result = json.loads(response_text)
         
         # Map to ResumeData model
         return ResumeData(
