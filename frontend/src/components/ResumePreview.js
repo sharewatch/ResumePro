@@ -92,6 +92,8 @@ const ResumePreview = ({ resumeData, template, customColor, onColorChange, custo
         style={{
           fontFamily: getFontFamily(customization.font),
           fontSize: `${(customization.fontSize || 1) * 100}%`,
+          lineHeight: customization.lineHeight || 1.6,
+          padding: `${(customization.margin || 1) * 2}rem`,
           '--section-spacing': `${(customization.spacing || 1) * 1.5}rem`
         }}
       >
