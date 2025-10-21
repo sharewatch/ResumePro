@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
 import './ResumeTemplates.css';
+import './ResumeTemplatesEnhanced.css';
 
 // Traditional Single Column Template
 export const TraditionalTemplate = ({ resumeData, templateStyles }) => {
