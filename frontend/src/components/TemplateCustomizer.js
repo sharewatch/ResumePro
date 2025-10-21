@@ -78,6 +78,8 @@ const TemplateCustomizer = ({ customization, onCustomizationChange }) => {
       font: 'inter',
       spacing: 1,
       fontSize: 1,
+      lineHeight: 1.6,
+      margin: 1,
       sectionOrder: sections.map(s => s.id)
     });
   };
