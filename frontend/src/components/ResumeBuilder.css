@@ -417,4 +417,23 @@
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
   }
+
+  /* Welcome Section Responsive */
+  .welcome-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 1.125rem;
+  }
+
+  .welcome-features,
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
