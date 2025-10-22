@@ -40,6 +40,7 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
     setGenerating(true);
 
     try {
+      console.log('Sending request to generate cover letter...');
       const response = await axios.post(`${API}/cover-letter/generate`, {
         resumeData,
         jobDescription,
@@ -47,11 +48,20 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
         jobTitle
       });
 
-      setCoverLetterContent(response.data.content);
-      setSuggestions(response.data.suggestions || []);
+      console.log('Cover letter response:', response.data);
+      
+      if (response.data && response.data.content) {
+        setCoverLetterContent(response.data.content);
+        setSuggestions(response.data.suggestions || []);
+        console.log('Cover letter generated successfully');
+      } else {
+        console.error('No content in response:', response.data);
+        alert('Received empty response from AI. Please try again.');
+      }
     } catch (error) {
       console.error('Generation failed:', error);
-      alert('Failed to generate cover letter. Please try again.');
+      console.error('Error details:', error.response?.data);
+      alert(`Failed to generate cover letter: ${error.response?.data?.detail || error.message}`);
     } finally {
       setGenerating(false);
     }
