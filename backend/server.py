@@ -472,7 +472,7 @@ Categories: Programming, Frameworks, Databases, Cloud, Tools, Soft Skills, Other
 
 # AI Analysis Function
 async def analyze_ats_with_ai(resume_data: ResumeData, job_description: str) -> ATSAnalysisResponse:
-    """Use OpenAI to analyze resume against job description"""
+    """Use Emergent LLM to analyze resume against job description"""
     
     resume_text = f"""
 Summary: {resume_data.summary}
@@ -501,30 +501,38 @@ Resume:
 Job Description:
 {job_description}
 
-Respond in JSON format:
+Return ONLY valid JSON (no markdown, no code blocks):
 {{
-  "score": <number>,
-  "matched_keywords": [<keywords>],
-  "missing_keywords": [<keywords>],
-  "suggestions": [<suggestions>],
-  "impact_opportunities": [{{"original": "<text>", "improved": "<text>"}}],
-  "readability_score": <number>,
-  "readability_suggestions": [<suggestions>]
+  "score": 85,
+  "matched_keywords": ["keyword1", "keyword2"],
+  "missing_keywords": ["keyword3", "keyword4"],
+  "suggestions": ["suggestion 1", "suggestion 2"],
+  "impact_opportunities": [{{"original": "original text", "improved": "improved text"}}],
+  "readability_score": 90,
+  "readability_suggestions": ["suggestion 1"]
 }}
 """
     
     try:
-        response = openai_client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are an expert ATS analyzer. Always respond with valid JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            response_format={"type": "json_object"}
-        )
+        # Initialize LlmChat with Emergent LLM key
+        chat = LlmChat(
+            api_key=os.environ.get('EMERGENT_LLM_KEY'),
+            session_id=f"ats_analysis_{uuid.uuid4().hex[:8]}",
+            system_message="You are an expert ATS analyzer. Always return ONLY valid JSON without markdown formatting."
+        ).with_model("openai", "gpt-4o-mini")
         
-        result = json.loads(response.choices[0].message.content)
+        user_message = UserMessage(text=prompt)
+        response = await chat.send_message(user_message)
+        
+        # Clean response
+        response_text = response.strip()
+        if response_text.startswith('```'):
+            lines = response_text.split('\n')
+            response_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else response_text
+            if response_text.startswith('json'):
+                response_text = response_text[4:].strip()
+        
+        result = json.loads(response_text)
         
         score = result.get('score', 75)
         status = "Excellent" if score >= 80 else "Good" if score >= 60 else "Needs Work"
@@ -548,7 +556,8 @@ Respond in JSON format:
             )
         )
     except Exception as e:
-        logger.error(f"OpenAI error: {str(e)}")
+        logger.error(f"ATS analysis error: {str(e)}")
+        logger.error(f"Response was: {response if 'response' in locals() else 'No response'}")
         return ATSAnalysisResponse(
             score=70,
             status="Good",
