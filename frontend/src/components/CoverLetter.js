@@ -157,7 +157,12 @@ const CoverLetter = ({ resumeData }) => {
 
           {coverLetterContent && (
             <Card className="editor-section">
-              <h3>Edit Cover Letter</h3>
+              <div className="editor-header">
+                <h3>Edit Cover Letter</h3>
+                <Badge variant="outline" className="info-badge">
+                  💡 Note: Cover letters use first-person (I, my, me) - unlike resumes
+                </Badge>
+              </div>
               <Textarea
                 value={coverLetterContent}
                 onChange={(e) => setCoverLetterContent(e.target.value)}
