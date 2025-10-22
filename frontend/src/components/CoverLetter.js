@@ -224,8 +224,15 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
               </div>
               <div className="preview-body">
                 <p className="date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                {companyName && <p className="company">{companyName}</p>}
-                {jobTitle && <p className="job-title" style={{ color: customColor }}>Re: {jobTitle}</p>}
+                {companyName && (
+                  <div className="company-section">
+                    <p className="company" style={{ fontWeight: 600 }}>{companyName}</p>
+                    {companyAddress && (
+                      <p className="company-address">{companyAddress}</p>
+                    )}
+                  </div>
+                )}
+                {jobTitle && <p className="job-title" style={{ color: customColor, marginTop: '1.5rem' }}>Re: {jobTitle}</p>}
                 <div className="letter-content">
                   {coverLetterContent.split('\n\n').map((para, idx) => (
                     <p key={idx}>{para}</p>
