@@ -29,6 +29,14 @@ const ResumeBuilder = () => {
     fontSize: 1,
     sectionOrder: ['summary', 'experience', 'education', 'skills', 'certifications', 'languages']
   });
+  const [coverLetterData, setCoverLetterData] = useState({
+    companyName: '',
+    companyAddress: '',
+    jobTitle: '',
+    jobDescription: '',
+    content: '',
+    suggestions: []
+  });
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [showImportDialog, setShowImportDialog] = useState(false);
