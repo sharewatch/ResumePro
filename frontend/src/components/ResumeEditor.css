@@ -5,42 +5,85 @@
   margin: 0 auto;
 }
 
-/* Modern Sub-Tabs */
+/* Modern Sub-Tabs with Pastel Colors */
 .editor-tabs .tabs-list {
   display: flex;
-  gap: 0.5rem;
-  padding: 0;
-  background: transparent;
-  border-bottom: 2px solid var(--border-color);
+  gap: 0.375rem;
+  padding: 0.5rem;
+  background: var(--background-secondary);
+  border-radius: var(--radius-lg);
   margin-bottom: 2rem;
   overflow-x: auto;
 }
 
 .editor-tabs .tabs-trigger {
-  padding: 0.875rem 1.25rem;
-  font-size: 0.9375rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-secondary);
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
+  color: var(--text-primary);
+  background: white;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
   position: relative;
-  margin-bottom: -2px;
 }
 
 .editor-tabs .tabs-trigger:hover {
-  color: var(--primary-color);
-  background: var(--primary-light);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-color: var(--text-muted);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
-.editor-tabs .tabs-trigger[data-state="active"] {
-  color: var(--primary-color);
+/* Pastel Colors for Sub-Tabs */
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(1) {
+  background: linear-gradient(135deg, #ffe0f0 0%, #ffc4dd 100%);
+  border-color: #ffc4dd;
+  color: #c2185b;
   font-weight: 600;
-  border-bottom-color: var(--primary-color);
+}
+
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(2) {
+  background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%);
+  border-color: #ce93d8;
+  color: #7b1fa2;
+  font-weight: 600;
+}
+
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(3) {
+  background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+  border-color: #90caf9;
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(4) {
+  background: linear-gradient(135deg, #b2dfdb 0%, #80cbc4 100%);
+  border-color: #80cbc4;
+  color: #00796b;
+  font-weight: 600;
+}
+
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(5) {
+  background: linear-gradient(135deg, #dcedc8 0%, #c5e1a5 100%);
+  border-color: #c5e1a5;
+  color: #558b2f;
+  font-weight: 600;
+}
+
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(6) {
+  background: linear-gradient(135deg, #fff9e6 0%, #ffecb3 100%);
+  border-color: #ffecb3;
+  color: #f57c00;
+  font-weight: 600;
+}
+
+.editor-tabs .tabs-trigger[data-state="active"]:nth-child(7) {
+  background: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%);
+  border-color: #ffcc80;
+  color: #e64a19;
+  font-weight: 600;
 }
 
 /* Modern Form Sections */
