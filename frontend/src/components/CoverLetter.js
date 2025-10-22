@@ -16,20 +16,39 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
   const [generating, setGenerating] = useState(false);
   const [exporting, setExporting] = useState(false);
 
-  // Use persisted state from parent
-  const companyName = coverLetterData.companyName;
-  const companyAddress = coverLetterData.companyAddress;
-  const jobTitle = coverLetterData.jobTitle;
-  const jobDescription = coverLetterData.jobDescription;
-  const coverLetterContent = coverLetterData.content;
-  const suggestions = coverLetterData.suggestions;
+  // Use persisted state from parent - extract values
+  const { companyName, companyAddress, jobTitle, jobDescription, content: coverLetterContent, suggestions } = coverLetterData;
 
-  const setCompanyName = (value) => onCoverLetterChange({ ...coverLetterData, companyName: value });
-  const setCompanyAddress = (value) => onCoverLetterChange({ ...coverLetterData, companyAddress: value });
-  const setJobTitle = (value) => onCoverLetterChange({ ...coverLetterData, jobTitle: value });
-  const setJobDescription = (value) => onCoverLetterChange({ ...coverLetterData, jobDescription: value });
-  const setCoverLetterContent = (value) => onCoverLetterChange({ ...coverLetterData, content: value });
-  const setSuggestions = (value) => onCoverLetterChange({ ...coverLetterData, suggestions: value });
+  // Helper functions to update parent state
+  const setCompanyName = (value) => {
+    const newData = { ...coverLetterData, companyName: value };
+    onCoverLetterChange(newData);
+  };
+  
+  const setCompanyAddress = (value) => {
+    const newData = { ...coverLetterData, companyAddress: value };
+    onCoverLetterChange(newData);
+  };
+  
+  const setJobTitle = (value) => {
+    const newData = { ...coverLetterData, jobTitle: value };
+    onCoverLetterChange(newData);
+  };
+  
+  const setJobDescription = (value) => {
+    const newData = { ...coverLetterData, jobDescription: value };
+    onCoverLetterChange(newData);
+  };
+  
+  const setCoverLetterContent = (value) => {
+    const newData = { ...coverLetterData, content: value };
+    onCoverLetterChange(newData);
+  };
+  
+  const setSuggestions = (value) => {
+    const newData = { ...coverLetterData, suggestions: value };
+    onCoverLetterChange(newData);
+  };
 
   const handleGenerate = async () => {
     if (!jobDescription.trim()) {
