@@ -143,15 +143,15 @@ backend:
   
   - task: "Cover Letter Generation endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
-        comment: "Backend has /api/coverletter/generate endpoint using Emergent LLM"
+        comment: "Updated to use emergentintegrations LlmChat. Generates professional cover letters (300-400 words) tailored to resume and job description with AI suggestions. Tested and working."
 
 frontend:
   - task: "Enhanced Template Styles CSS"
