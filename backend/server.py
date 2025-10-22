@@ -413,10 +413,10 @@ Return ONLY valid JSON (no markdown, no code blocks):
         raise HTTPException(status_code=500, detail="Failed to generate cover letter")
 
 async def extract_skills_with_ai(text: str, existing_skills: List[str]) -> SkillsExtractResponse:
-    """Use OpenAI to extract skills from job description"""
+    """Use Emergent LLM to extract skills from job description"""
     
     prompt = f"""Extract technical and professional skills from this job description. 
-Return a JSON list of skills with their categories.
+Return ONLY valid JSON (no markdown, no code blocks).
 
 Job Description:
 {text}
@@ -435,17 +435,25 @@ Return JSON:
 Categories: Programming, Frameworks, Databases, Cloud, Tools, Soft Skills, Other"""
     
     try:
-        response = openai_client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are an expert at extracting skills from job descriptions. Return valid JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3,
-            response_format={"type": "json_object"}
-        )
+        # Initialize LlmChat with Emergent LLM key
+        chat = LlmChat(
+            api_key=os.environ.get('EMERGENT_LLM_KEY'),
+            session_id=f"skills_extract_{uuid.uuid4().hex[:8]}",
+            system_message="You are an expert at extracting skills from job descriptions. Return ONLY valid JSON without markdown."
+        ).with_model("openai", "gpt-4o-mini")
         
-        result = json.loads(response.choices[0].message.content)
+        user_message = UserMessage(text=prompt)
+        response = await chat.send_message(user_message)
+        
+        # Clean response
+        response_text = response.strip()
+        if response_text.startswith('```'):
+            lines = response_text.split('\n')
+            response_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else response_text
+            if response_text.startswith('json'):
+                response_text = response_text[4:].strip()
+        
+        result = json.loads(response_text)
         skills = []
         
         for skill_data in result.get('skills', []):
@@ -459,6 +467,7 @@ Categories: Programming, Frameworks, Databases, Cloud, Tools, Soft Skills, Other
         return SkillsExtractResponse(skills=skills)
     except Exception as e:
         logger.error(f"Skills extraction error: {str(e)}")
+        logger.error(f"Response was: {response if 'response' in locals() else 'No response'}")
         return SkillsExtractResponse(skills=[])
 
 # AI Analysis Function
