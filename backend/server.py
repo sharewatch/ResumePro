@@ -369,6 +369,10 @@ Write a compelling cover letter (300-400 words) that:
 4. Demonstrates value the candidate would bring
 5. Closes with a strong call to action
 6. Uses British English spelling
+7. Uses first-person pronouns naturally but not excessively (balance "I" statements with achievement-focused sentences)
+8. Includes specific examples and quantifiable achievements from the resume
+
+IMPORTANT: Cover letters should use first-person perspective (I, my, me) as they are personal letters. However, maintain a balance - not every sentence should start with "I". Mix personal statements with achievement-focused language.
 
 Also provide 2-3 suggestions for customization.
 
