@@ -194,10 +194,10 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb' }) => {
 
         <TabsContent value="preview" className="preview-tab">
           {coverLetterContent ? (
-            <Card className="preview-card">
-              <div className="preview-header">
+            <Card className="preview-card" style={{ borderColor: customColor }}>
+              <div className="preview-header" style={{ borderBottomColor: customColor }}>
                 <div>
-                  <h3>{resumeData.personalInfo.fullName}</h3>
+                  <h3 style={{ color: customColor }}>{resumeData.personalInfo.fullName}</h3>
                   <p>{resumeData.personalInfo.email} | {resumeData.personalInfo.phone}</p>
                   {resumeData.personalInfo.location && <p>{resumeData.personalInfo.location}</p>}
                 </div>
@@ -205,18 +205,18 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb' }) => {
               <div className="preview-body">
                 <p className="date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 {companyName && <p className="company">{companyName}</p>}
-                {jobTitle && <p className="job-title">Re: {jobTitle}</p>}
+                {jobTitle && <p className="job-title" style={{ color: customColor }}>Re: {jobTitle}</p>}
                 <div className="letter-content">
                   {coverLetterContent.split('\n\n').map((para, idx) => (
                     <p key={idx}>{para}</p>
                   ))}
                 </div>
-                <p className="signature">Yours sincerely,<br/>{resumeData.personalInfo.fullName}</p>
+                <p className="signature">Yours sincerely,<br/><span style={{ color: customColor }}>{resumeData.personalInfo.fullName}</span></p>
               </div>
             </Card>
           ) : (
             <div className="empty-preview">
-              <FileText size={64} className="empty-icon" />
+              <FileText size={64} className="empty-icon" style={{ color: customColor }} />
               <p>Generate a cover letter to see the preview</p>
             </div>
           )}
