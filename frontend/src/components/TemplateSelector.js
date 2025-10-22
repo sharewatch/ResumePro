@@ -187,15 +187,64 @@ const TemplateSelector = ({ selectedTemplate, onSelectTemplate }) => {
             )}
             
             <div className="template-preview" style={{ borderColor: template.color }}>
-              <div className="preview-placeholder" style={{ background: `linear-gradient(135deg, ${template.color}15 0%, ${template.color}30 100%)` }}>
-                <div className="preview-header" style={{ backgroundColor: template.color }}></div>
-                <div className="preview-content">
-                  <div className="preview-line" style={{ backgroundColor: template.color }}></div>
-                  <div className="preview-line short" style={{ backgroundColor: `${template.color}80` }}></div>
-                  <div className="preview-line" style={{ backgroundColor: `${template.color}60` }}></div>
-                  <div className="preview-line short" style={{ backgroundColor: `${template.color}40` }}></div>
+              {template.layout === 'two-column' ? (
+                <div className="preview-two-column">
+                  <div className="preview-sidebar" style={{ backgroundColor: `${template.color}15` }}>
+                    <div className="preview-photo" style={{ backgroundColor: `${template.color}40` }}></div>
+                    <div className="preview-mini-line" style={{ backgroundColor: `${template.color}60` }}></div>
+                    <div className="preview-mini-line" style={{ backgroundColor: `${template.color}60` }}></div>
+                    <div className="preview-mini-line short" style={{ backgroundColor: `${template.color}60` }}></div>
+                  </div>
+                  <div className="preview-main">
+                    <div className="preview-header-bar" style={{ backgroundColor: template.color }}></div>
+                    <div className="preview-section">
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                      <div className="preview-line short" style={{ backgroundColor: `${template.color}50` }}></div>
+                    </div>
+                    <div className="preview-section">
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}50` }}></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : template.layout === 'creative' ? (
+                <div className="preview-creative">
+                  <div className="preview-header-creative" style={{ background: `linear-gradient(135deg, ${template.color} 0%, ${template.color}cc 100%)` }}>
+                    <div className="preview-photo-creative" style={{ backgroundColor: 'white', border: `2px solid white` }}></div>
+                  </div>
+                  <div className="preview-body-creative">
+                    <div className="preview-columns">
+                      <div className="preview-col">
+                        <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                        <div className="preview-line short" style={{ backgroundColor: `${template.color}50` }}></div>
+                      </div>
+                      <div className="preview-col">
+                        <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                        <div className="preview-line short" style={{ backgroundColor: `${template.color}50` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="preview-single-column">
+                  <div className="preview-header-bar" style={{ backgroundColor: template.color }}></div>
+                  <div className="preview-content">
+                    <div className="preview-section">
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                      <div className="preview-line short" style={{ backgroundColor: `${template.color}50` }}></div>
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}50` }}></div>
+                    </div>
+                    <div className="preview-section">
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}50` }}></div>
+                    </div>
+                    <div className="preview-section">
+                      <div className="preview-line" style={{ backgroundColor: `${template.color}80` }}></div>
+                      <div className="preview-line short" style={{ backgroundColor: `${template.color}50` }}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="template-info">
