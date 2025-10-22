@@ -4,11 +4,21 @@
   flex-direction: column;
   background: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
 }
 
-.ai-assistant * {
-  font-family: inherit;
+.ai-assistant *,
+.ai-assistant button,
+.ai-assistant input,
+.ai-assistant textarea,
+.ai-assistant h1,
+.ai-assistant h2,
+.ai-assistant h3,
+.ai-assistant p,
+.ai-assistant span,
+.ai-assistant div {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
 }
 
 /* Header */
