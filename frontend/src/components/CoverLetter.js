@@ -71,6 +71,7 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
         {
           personalInfo: resumeData.personalInfo,
           companyName,
+          companyAddress,
           jobTitle,
           content: coverLetterContent
         },
