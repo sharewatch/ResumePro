@@ -86,14 +86,14 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb' }) => {
     <div className="cover-letter-container">
       <div className="cover-letter-header">
         <div className="header-left">
-          <FileText size={28} />
+          <FileText size={28} style={{ color: customColor }} />
           <div>
             <h2>Cover Letter Builder</h2>
             <p>AI-powered cover letter generation tailored to your resume</p>
           </div>
         </div>
         {coverLetterContent && (
-          <Button onClick={handleExport} disabled={exporting}>
+          <Button onClick={handleExport} disabled={exporting} style={{ backgroundColor: customColor, borderColor: customColor }}>
             <Download size={16} />
             {exporting ? 'Exporting...' : 'Export PDF'}
           </Button>
