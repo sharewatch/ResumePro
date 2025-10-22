@@ -174,7 +174,8 @@ const ResumeBuilder = () => {
       <div className="main-navigation">
         <Tabs value={mainTab} onValueChange={setMainTab} className="main-tabs">
           <TabsList>
-            <TabsTrigger value="resume">Resume</TabsTrigger>
+            <TabsTrigger value="edit">Edit Content</TabsTrigger>
+            <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="cover-letter">Cover Letter</TabsTrigger>
             <TabsTrigger value="score">Score & Analytics</TabsTrigger>
             <TabsTrigger value="customize">Customise</TabsTrigger>
