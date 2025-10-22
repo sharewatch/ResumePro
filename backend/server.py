@@ -661,10 +661,14 @@ async def export_cover_letter_pdf(request: dict):
     
     # Company info
     company_name = request.get('companyName', '')
+    company_address = request.get('companyAddress', '')
     job_title = request.get('jobTitle', '')
     if company_name:
-        story.append(Paragraph(company_name, styles['Normal']))
+        story.append(Paragraph(f"<b>{company_name}</b>", styles['Normal']))
+    if company_address:
+        story.append(Paragraph(company_address, styles['Normal']))
     if job_title:
+        story.append(Spacer(1, 0.2*inch))
         story.append(Paragraph(f"Re: {job_title}", styles['Normal']))
     story.append(Spacer(1, 0.3*inch))
     
