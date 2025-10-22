@@ -218,7 +218,7 @@ const ResumeBuilder = () => {
             )}
           </>
         ) : mainTab === 'cover-letter' ? (
-          <CoverLetter resumeData={resumeData} />
+          <CoverLetter resumeData={resumeData} customColor={customColor} />
         ) : mainTab === 'score' ? (
           <ResumeScore resumeData={resumeData} />
         ) : (
