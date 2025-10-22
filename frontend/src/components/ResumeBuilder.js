@@ -99,8 +99,7 @@ const ResumeBuilder = () => {
     console.log('Merged data:', importedData);
     setResumeData(importedData);
     setShowImportDialog(false);
-    setMainTab('resume');
-    setActiveTab('edit'); // Switch to edit tab to show imported data
+    setMainTab('edit'); // Switch to edit tab to show imported data
     setSaveStatus('imported');
     setTimeout(() => setSaveStatus(''), 2000);
   };
