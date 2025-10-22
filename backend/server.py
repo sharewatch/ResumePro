@@ -188,8 +188,11 @@ def extract_text_from_docx(file_content: bytes) -> str:
 async def parse_resume_with_ai(resume_text: str) -> ResumeData:
     """Use Emergent LLM to parse resume text into structured data"""
     
-    prompt = f"""Parse this resume text and extract structured information. Return ONLY a JSON object with these exact fields (no markdown, no code blocks):
+    prompt = f"""Parse this resume text and extract ALL information into a structured JSON format. Be thorough and extract every detail.
 
+CRITICAL: Return ONLY a valid JSON object (no markdown, no code blocks, no explanations).
+
+Required JSON structure:
 {{
   "personalInfo": {{
     "fullName": "",
@@ -204,41 +207,64 @@ async def parse_resume_with_ai(resume_text: str) -> ResumeData:
   "experience": [
     {{
       "id": "exp1",
-      "title": "",
-      "company": "",
-      "location": "",
-      "startDate": "DD-MM-YYYY",
-      "endDate": "DD-MM-YYYY or Present",
+      "title": "Job Title",
+      "company": "Company Name",
+      "location": "City, State",
+      "startDate": "01-01-2020",
+      "endDate": "31-12-2021",
       "current": false,
-      "bullets": []
+      "bullets": ["Achievement 1", "Achievement 2"]
     }}
   ],
   "education": [
     {{
       "id": "edu1",
-      "degree": "",
-      "school": "",
-      "location": "",
-      "graduationDate": "YYYY",
+      "degree": "Degree Name",
+      "school": "University Name",
+      "location": "City, State",
+      "graduationDate": "2020",
       "gpa": ""
     }}
   ],
-  "skills": [],
-  "certifications": [],
-  "languages": []
+  "skills": ["Skill1", "Skill2", "Skill3"],
+  "certifications": [
+    {{
+      "id": "cert1",
+      "name": "Certification Name",
+      "issuer": "Issuing Organization",
+      "date": "2020"
+    }}
+  ],
+  "languages": [
+    {{
+      "id": "lang1",
+      "language": "English",
+      "proficiency": "Native"
+    }}
+  ]
 }}
 
-Resume Text:
-{resume_text}
+IMPORTANT INSTRUCTIONS:
+1. Extract ALL work experience entries with their bullets/achievements
+2. Extract ALL education entries  
+3. Extract ALL skills mentioned
+4. Extract ALL certifications if present
+5. Extract ALL languages if present
+6. Use DD-MM-YYYY format for dates (e.g., "15-06-2020")
+7. For current positions, set "current": true and "endDate": "Present"
+8. Generate unique sequential IDs: exp1, exp2, exp3, edu1, edu2, cert1, cert2, lang1, lang2
+9. If a field is not found, use empty string "" or empty array []
+10. Return ONLY the JSON object, nothing else
 
-Extract all information accurately. For dates, use DD-MM-YYYY format. Generate unique IDs for each item (exp1, exp2, edu1, etc.). Leave fields empty if not found. Return ONLY the JSON object."""
+Resume Text:
+{resume_text}"""
 
     try:
         # Initialize LlmChat with Emergent LLM key
         chat = LlmChat(
             api_key=os.environ.get('EMERGENT_LLM_KEY'),
             session_id=f"resume_parse_{uuid.uuid4().hex[:8]}",
-            system_message="You are an expert resume parser. Always return valid JSON without markdown formatting."
+            system_message="You are an expert resume parser. Extract ALL information thoroughly. Always return ONLY valid JSON without any markdown formatting or explanations."
         ).with_model("openai", "gpt-4o-mini")
         
         # Create user message
@@ -251,30 +277,55 @@ Extract all information accurately. For dates, use DD-MM-YYYY format. Generate u
         response_text = response.strip()
         if response_text.startswith('```'):
             # Remove markdown code blocks
-            response_text = response_text.split('```')[1]
+            lines = response_text.split('\n')
+            response_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else response_text
             if response_text.startswith('json'):
-                response_text = response_text[4:]
-            response_text = response_text.strip()
+                response_text = response_text[4:].strip()
         
+        # Parse JSON
         result = json.loads(response_text)
+        
+        # Add IDs if missing and validate structure
+        experiences = result.get('experience', [])
+        for i, exp in enumerate(experiences):
+            if 'id' not in exp:
+                exp['id'] = f"exp{i+1}"
+            if 'bullets' not in exp:
+                exp['bullets'] = []
+                
+        educations = result.get('education', [])
+        for i, edu in enumerate(educations):
+            if 'id' not in edu:
+                edu['id'] = f"edu{i+1}"
+                
+        certifications = result.get('certifications', [])
+        for i, cert in enumerate(certifications):
+            if 'id' not in cert:
+                cert['id'] = f"cert{i+1}"
+                
+        languages = result.get('languages', [])
+        for i, lang in enumerate(languages):
+            if 'id' not in lang:
+                lang['id'] = f"lang{i+1}"
         
         # Map to ResumeData model
         return ResumeData(
             personalInfo=PersonalInfo(**result.get('personalInfo', {})),
             summary=result.get('summary', ''),
-            experience=[ExperienceItem(**exp) for exp in result.get('experience', [])],
-            education=[EducationItem(**edu) for edu in result.get('education', [])],
+            experience=[ExperienceItem(**exp) for exp in experiences],
+            education=[EducationItem(**edu) for edu in educations],
             skills=result.get('skills', []),
-            certifications=[CertificationItem(**cert) for cert in result.get('certifications', [])],
-            languages=[LanguageItem(**lang) for lang in result.get('languages', [])]
+            certifications=[CertificationItem(**cert) for cert in certifications],
+            languages=[LanguageItem(**lang) for lang in languages]
         )
     except Exception as e:
         logger.error(f"Resume parsing error: {str(e)}")
+        logger.error(f"Response was: {response if 'response' in locals() else 'No response'}")
         # Return a basic structure with the extracted text in summary
         # This allows the user to at least see something and edit manually
         return ResumeData(
             personalInfo=PersonalInfo(fullName="", email="", phone="", location=""),
-            summary=resume_text[:500] if len(resume_text) > 500 else resume_text,
+            summary=f"Failed to parse resume automatically. Please review and edit manually.\n\nExtracted text:\n{resume_text[:500]}",
             experience=[],
             education=[],
             skills=[],
