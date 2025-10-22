@@ -70,9 +70,15 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
       console.log('Cover letter response:', response.data);
       
       if (response.data && response.data.content) {
-        setCoverLetterContent(response.data.content);
-        setSuggestions(response.data.suggestions || []);
+        // Update both content and suggestions in a single state update
+        const newData = {
+          ...coverLetterData,
+          content: response.data.content,
+          suggestions: response.data.suggestions || []
+        };
+        onCoverLetterChange(newData);
         console.log('Cover letter generated successfully');
+        console.log('Content length:', response.data.content.length);
       } else {
         console.error('No content in response:', response.data);
         alert('Received empty response from AI. Please try again.');
