@@ -334,7 +334,7 @@ Resume Text:
         )
 
 async def generate_cover_letter_with_ai(resume_data: ResumeData, job_description: str, company_name: str, job_title: str) -> CoverLetterResponse:
-    """Use OpenAI to generate cover letter"""
+    """Use Emergent LLM to generate cover letter"""
     
     resume_summary = f"""
 Name: {resume_data.personalInfo.fullName}
@@ -351,7 +351,7 @@ Education:
 {chr(10).join([f"- {edu.degree} from {edu.school}" for edu in resume_data.education])}
 """
     
-    prompt = f"""Write a professional cover letter for this job application:
+    prompt = f"""Write a professional cover letter for this job application.
 
 Job Title: {job_title}
 Company: {company_name}
@@ -370,27 +370,38 @@ Write a compelling cover letter (300-400 words) that:
 5. Closes with a strong call to action
 6. Uses British English spelling
 
-Also provide 2-3 suggestions for customisation.
+Also provide 2-3 suggestions for customization.
 
-Return JSON:
+Return ONLY valid JSON (no markdown, no code blocks):
 {{
-  "content": "<cover letter text with proper paragraphs>",
+  "content": "Full cover letter text with proper paragraphs separated by double newlines",
   "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3"]
 }}
 """
     
     try:
-        response = openai_client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are an expert cover letter writer. Always use British English and return valid JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            response_format={"type": "json_object"}
-        )
+        # Initialize LlmChat with Emergent LLM key
+        chat = LlmChat(
+            api_key=os.environ.get('EMERGENT_LLM_KEY'),
+            session_id=f"cover_letter_{uuid.uuid4().hex[:8]}",
+            system_message="You are an expert cover letter writer. Always use British English and return ONLY valid JSON without markdown formatting."
+        ).with_model("openai", "gpt-4o-mini")
         
-        result = json.loads(response.choices[0].message.content)
+        # Create user message
+        user_message = UserMessage(text=prompt)
+        
+        # Send message and get response
+        response = await chat.send_message(user_message)
+        
+        # Clean response (remove markdown code blocks if present)
+        response_text = response.strip()
+        if response_text.startswith('```'):
+            lines = response_text.split('\n')
+            response_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else response_text
+            if response_text.startswith('json'):
+                response_text = response_text[4:].strip()
+        
+        result = json.loads(response_text)
         
         return CoverLetterResponse(
             content=result.get('content', ''),
@@ -398,6 +409,7 @@ Return JSON:
         )
     except Exception as e:
         logger.error(f"Cover letter generation error: {str(e)}")
+        logger.error(f"Response was: {response if 'response' in locals() else 'No response'}")
         raise HTTPException(status_code=500, detail="Failed to generate cover letter")
 
 async def extract_skills_with_ai(text: str, existing_skills: List[str]) -> SkillsExtractResponse:
