@@ -138,6 +138,15 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onC
               </div>
             </div>
             <div className="form-field full-width">
+              <label>Company Address (Optional)</label>
+              <Textarea
+                value={companyAddress}
+                onChange={(e) => setCompanyAddress(e.target.value)}
+                placeholder="e.g., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA"
+                rows={2}
+              />
+            </div>
+            <div className="form-field full-width">
               <label>Job Description *</label>
               <Textarea
                 value={jobDescription}
