@@ -186,6 +186,65 @@ const ResumeBuilder = () => {
       <div className="builder-main">
         {mainTab === 'resume' ? (
           <>
+            {/* Welcome Section */}
+            <div className="welcome-section">
+              <h1 className="welcome-title">Build Your Professional Resume in Minutes</h1>
+              <p className="welcome-subtitle">
+                Create an ATS-optimized resume with AI-powered assistance, choose from professional templates, and land your dream job faster
+              </p>
+              
+              <div className="welcome-features">
+                <div className="welcome-feature">
+                  <div className="welcome-feature-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2L2 8l12 6 12-6-12-6z"/><path d="M2 17l12 6 12-6M2 12l12 6 12-6"/></svg>
+                  </div>
+                  <h4>15+ Professional Templates</h4>
+                  <p>Choose from diverse, ATS-friendly designs for every industry</p>
+                </div>
+                <div className="welcome-feature">
+                  <div className="welcome-feature-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8a3 3 0 0 1 3 3"/></svg>
+                  </div>
+                  <h4>AI-Powered Analysis</h4>
+                  <p>Get instant ATS score, keyword suggestions, and optimization tips</p>
+                </div>
+                <div className="welcome-feature">
+                  <div className="welcome-feature-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </div>
+                  <h4>Easy Export & Import</h4>
+                  <p>Download as PDF/DOCX or import existing resume to enhance</p>
+                </div>
+              </div>
+
+              <div className="welcome-steps">
+                <h3>How It Works</h3>
+                <div className="steps-grid">
+                  <div className="step-item">
+                    <div className="step-number">1</div>
+                    <div className="step-content">
+                      <h4>Choose Template</h4>
+                      <p>Pick a design that matches your industry from our library</p>
+                    </div>
+                  </div>
+                  <div className="step-item">
+                    <div className="step-number">2</div>
+                    <div className="step-content">
+                      <h4>Add Your Information</h4>
+                      <p>Fill in your details or import an existing resume</p>
+                    </div>
+                  </div>
+                  <div className="step-item">
+                    <div className="step-number">3</div>
+                    <div className="step-content">
+                      <h4>Download & Apply</h4>
+                      <p>Export your polished resume and start applying!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="builder-workspace">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="workspace-tabs">
                 <TabsList className="tabs-list">
