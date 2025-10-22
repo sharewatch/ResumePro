@@ -140,6 +140,7 @@ const CoverLetter = ({ resumeData, customColor = '#2563eb' }) => {
               onClick={handleGenerate}
               disabled={generating || !jobDescription.trim()}
               className="generate-btn"
+              style={{ backgroundColor: customColor, borderColor: customColor }}
             >
               {generating ? (
                 <>
