@@ -12,14 +12,24 @@ import './CoverLetter.css';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const CoverLetter = ({ resumeData, customColor = '#2563eb' }) => {
-  const [companyName, setCompanyName] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [coverLetterContent, setCoverLetterContent] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+const CoverLetter = ({ resumeData, customColor = '#2563eb', coverLetterData, onCoverLetterChange }) => {
   const [generating, setGenerating] = useState(false);
   const [exporting, setExporting] = useState(false);
+
+  // Use persisted state from parent
+  const companyName = coverLetterData.companyName;
+  const companyAddress = coverLetterData.companyAddress;
+  const jobTitle = coverLetterData.jobTitle;
+  const jobDescription = coverLetterData.jobDescription;
+  const coverLetterContent = coverLetterData.content;
+  const suggestions = coverLetterData.suggestions;
+
+  const setCompanyName = (value) => onCoverLetterChange({ ...coverLetterData, companyName: value });
+  const setCompanyAddress = (value) => onCoverLetterChange({ ...coverLetterData, companyAddress: value });
+  const setJobTitle = (value) => onCoverLetterChange({ ...coverLetterData, jobTitle: value });
+  const setJobDescription = (value) => onCoverLetterChange({ ...coverLetterData, jobDescription: value });
+  const setCoverLetterContent = (value) => onCoverLetterChange({ ...coverLetterData, content: value });
+  const setSuggestions = (value) => onCoverLetterChange({ ...coverLetterData, suggestions: value });
 
   const handleGenerate = async () => {
     if (!jobDescription.trim()) {
