@@ -395,10 +395,59 @@
   line-height: 1.5;
 }
 
+/* AI Assistant Button */
+.ai-btn {
+  background: white !important;
+  color: var(--text-primary) !important;
+  border: 1.5px solid var(--border-color) !important;
+  transition: var(--transition) !important;
+}
+
+.ai-btn:hover {
+  background: var(--primary-light) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+.ai-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-color: #667eea !important;
+}
+
+/* AI Assistant Panel */
+.ai-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: white;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow-y: auto;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .builder-content {
     padding: 1.5rem;
+  }
+
+  .ai-panel {
+    width: 350px;
   }
 }
 
