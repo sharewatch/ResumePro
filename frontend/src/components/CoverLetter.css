@@ -59,7 +59,6 @@
 }
 
 .input-section h3,
-.editor-section h3,
 .suggestions-section h3 {
   font-size: 1.125rem;
   font-weight: 600;
@@ -68,6 +67,34 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.editor-section {
+  margin-top: 1.5rem;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.editor-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.info-badge {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
 }
 
 .form-grid {
