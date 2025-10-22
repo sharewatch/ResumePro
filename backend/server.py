@@ -384,6 +384,8 @@ Return ONLY valid JSON (no markdown, no code blocks):
 """
     
     try:
+        logger.info(f"Starting cover letter generation for {company_name} - {job_title}")
+        
         # Initialize LlmChat with Emergent LLM key
         chat = LlmChat(
             api_key=os.environ.get('EMERGENT_LLM_KEY'),
@@ -395,17 +397,23 @@ Return ONLY valid JSON (no markdown, no code blocks):
         user_message = UserMessage(text=prompt)
         
         # Send message and get response
+        logger.info("Sending request to LLM...")
         response = await chat.send_message(user_message)
+        logger.info(f"Received response from LLM (length: {len(response)})")
         
         # Clean response (remove markdown code blocks if present)
         response_text = response.strip()
         if response_text.startswith('```'):
+            logger.info("Cleaning markdown code blocks from response")
             lines = response_text.split('\n')
             response_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else response_text
             if response_text.startswith('json'):
                 response_text = response_text[4:].strip()
         
+        logger.info(f"Parsing JSON response (length: {len(response_text)})")
         result = json.loads(response_text)
+        
+        logger.info(f"Successfully generated cover letter (content length: {len(result.get('content', ''))})")
         
         return CoverLetterResponse(
             content=result.get('content', ''),
@@ -414,7 +422,7 @@ Return ONLY valid JSON (no markdown, no code blocks):
     except Exception as e:
         logger.error(f"Cover letter generation error: {str(e)}")
         logger.error(f"Response was: {response if 'response' in locals() else 'No response'}")
-        raise HTTPException(status_code=500, detail="Failed to generate cover letter")
+        raise HTTPException(status_code=500, detail=f"Failed to generate cover letter: {str(e)}")
 
 async def extract_skills_with_ai(text: str, existing_skills: List[str]) -> SkillsExtractResponse:
     """Use Emergent LLM to extract skills from job description"""
