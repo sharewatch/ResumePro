@@ -147,7 +147,7 @@ const ResumeBuilder = () => {
               <Save size={16} />
               {saveStatus === 'saved' ? 'Saved!' : saveStatus === 'imported' ? 'Imported!' : saveStatus === 'error' ? 'Error' : 'Save'}
             </Button>
-            {mainTab === 'resume' && (
+            {(mainTab === 'edit' || mainTab === 'preview') && (
               <>
                 <Button 
                   variant="outline"
