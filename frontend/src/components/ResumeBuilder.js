@@ -118,7 +118,7 @@ const ResumeBuilder = () => {
           <div className="header-left">
             <Button 
               variant="ghost" 
-              onClick={() => setMainTab('resume')}
+              onClick={() => setMainTab('edit')}
               className="home-btn"
               title="Home"
             >
