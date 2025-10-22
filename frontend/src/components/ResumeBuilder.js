@@ -42,7 +42,7 @@ const ResumeBuilder = () => {
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [showSkillsImport, setShowSkillsImport] = useState(false);
   const [activeTab, setActiveTab] = useState('edit');
-  const [mainTab, setMainTab] = useState('resume');
+  const [mainTab, setMainTab] = useState('edit');
   const [saveStatus, setSaveStatus] = useState('');
 
   const handleSave = async () => {
