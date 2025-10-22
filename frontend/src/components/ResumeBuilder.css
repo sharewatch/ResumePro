@@ -103,15 +103,15 @@
 }
 
 .import-btn {
-  background: white;
-  color: var(--text-primary);
-  border: 1.5px solid var(--border-color);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .import-btn:hover {
-  background: var(--background-secondary);
-  border-color: var(--text-muted);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
 }
 
 .save-status {
