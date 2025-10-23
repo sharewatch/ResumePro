@@ -224,7 +224,7 @@ export const TwoColumnTemplate = ({ resumeData, templateStyles, customization = 
 };
 
 // Modern Creative Template
-export const ModernCreativeTemplate = ({ resumeData, templateStyles }) => {
+export const ModernCreativeTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills } = resumeData;
   
   return (
@@ -313,7 +313,7 @@ export const ModernCreativeTemplate = ({ resumeData, templateStyles }) => {
 };
 
 // Minimalist Template
-export const MinimalistTemplate = ({ resumeData, templateStyles }) => {
+export const MinimalistTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills } = resumeData;
   
   return (
@@ -381,7 +381,7 @@ export const MinimalistTemplate = ({ resumeData, templateStyles }) => {
 };
 
 // Timeline Template (Enhancv-inspired)
-export const TimelineTemplate = ({ resumeData, templateStyles }) => {
+export const TimelineTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills } = resumeData;
   
   return (
@@ -462,7 +462,7 @@ export const TimelineTemplate = ({ resumeData, templateStyles }) => {
 };
 
 // Infographic Template (Enhancv-inspired)
-export const InfographicTemplate = ({ resumeData, templateStyles }) => {
+export const InfographicTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills } = resumeData;
   
   return (
@@ -557,7 +557,7 @@ export const InfographicTemplate = ({ resumeData, templateStyles }) => {
 };
 
 // Bold Visual Template
-export const BoldVisualTemplate = ({ resumeData, templateStyles }) => {
+export const BoldVisualTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills } = resumeData;
   
   return (
