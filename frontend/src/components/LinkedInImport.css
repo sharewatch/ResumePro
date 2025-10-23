@@ -1,0 +1,104 @@
+/* LinkedIn Import Component Styles */
+
+.linkedin-import {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.linkedin-import-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #0077b5 0%, #0a66c2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 119, 181, 0.2);
+}
+
+.linkedin-import-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #005885 0%, #004471 100%);
+  box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
+  transform: translateY(-2px);
+}
+
+.linkedin-import-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 119, 181, 0.2);
+}
+
+.linkedin-import-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.linkedin-import-button svg {
+  flex-shrink: 0;
+}
+
+.linkedin-import-error {
+  padding: 1rem;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  color: #c33;
+}
+
+.linkedin-import-error p {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.linkedin-setup-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  color: #495057;
+}
+
+.linkedin-setup-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #212529;
+  font-size: 1rem;
+}
+
+.linkedin-setup-info p {
+  margin: 0 0 0.5rem 0;
+  font-weight: normal;
+}
+
+.linkedin-setup-info ol {
+  margin: 0.5rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.linkedin-setup-info li {
+  margin-bottom: 0.5rem;
+}
+
+.linkedin-setup-info a {
+  color: #0077b5;
+  text-decoration: none;
+}
+
+.linkedin-setup-info a:hover {
+  text-decoration: underline;
+}
+
+.linkedin-setup-info pre {
+  background-color: #f1f3f4;
+  padding: 0.75rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  margin: 0.5rem 0;
+  border: 1px solid #dee2e6;
+}
