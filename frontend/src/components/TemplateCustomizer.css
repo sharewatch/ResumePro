@@ -94,31 +94,38 @@
 
 .form-field select {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 2px solid #cbd5e1;
   border-radius: 8px;
-  background: #f8fafc;
+  background-color: #f8fafc !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
   font-size: 0.9375rem;
   color: #0f172a;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .form-field select:hover {
   border-color: #94a3b8;
-  background: white;
+  background-color: white !important;
 }
 
 .form-field select:focus {
   outline: none;
   border-color: #7c3aed;
-  background: white;
+  background-color: white !important;
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .form-field select option {
-  background: white;
+  background-color: white !important;
   color: #0f172a;
   padding: 0.5rem;
 }
