@@ -207,3 +207,31 @@ a:focus-visible {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
+
+
+/* Fix for shadcn Select dropdown transparency - CRITICAL */
+[data-radix-popper-content-wrapper],
+[data-radix-select-content],
+[data-radix-select-viewport] {
+  background-color: #ffffff !important;
+}
+
+.bg-popover {
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+[role="listbox"] {
+  background-color: #ffffff !important;
+}
+
+[role="option"] {
+  background-color: #ffffff !important;
+}
+
+[role="option"]:hover,
+[role="option"][data-highlighted] {
+  background-color: #f3f4f6 !important;
+}
+
