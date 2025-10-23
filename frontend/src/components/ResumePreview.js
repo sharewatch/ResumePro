@@ -45,21 +45,21 @@ const ResumePreview = ({ resumeData, template, customColor, onColorChange, custo
   const renderTemplate = () => {
     // Two-column layouts
     if (template.includes('two-column') || template === 'sidebar') {
-      return <TwoColumnTemplate resumeData={resumeData} templateStyles={templateStyles} />;
+      return <TwoColumnTemplate resumeData={resumeData} templateStyles={templateStyles} customization={customization} />;
     }
     
     // Modern creative layouts
     if (template.includes('creative') || template === 'modern-creative') {
-      return <ModernCreativeTemplate resumeData={resumeData} templateStyles={templateStyles} />;
+      return <ModernCreativeTemplate resumeData={resumeData} templateStyles={templateStyles} customization={customization} />;
     }
     
     // Minimalist layouts
     if (template.includes('minimal')) {
-      return <MinimalistTemplate resumeData={resumeData} templateStyles={templateStyles} />;
+      return <MinimalistTemplate resumeData={resumeData} templateStyles={templateStyles} customization={customization} />;
     }
     
     // Default to traditional single-column layout
-    return <TraditionalTemplate resumeData={resumeData} templateStyles={templateStyles} />;
+    return <TraditionalTemplate resumeData={resumeData} templateStyles={templateStyles} customization={customization} />;
   };
 
   return (
