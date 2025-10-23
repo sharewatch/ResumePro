@@ -225,6 +225,30 @@ frontend:
       - working: true
         agent: "main"
         comment: "Fully implemented with 8 font options (including Playfair Display), section spacing slider, font size slider, line height slider, page margins slider, and section ordering with up/down controls. Customization properly passed to ResumePreview and applied via inline styles. All features tested and working."
+  
+  - task: "Global Font Consistency CSS"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/global-fonts.css"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created global CSS file with system font stack applied across all components using !important overrides. Imported in App.js for consistent typography."
+  
+  - task: "LinkedIn Import Component"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/LinkedInImport.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created LinkedIn import component with OAuth flow initiation, callback handling, and profile data prefilling. Integrated into ResumeImport dialog with LinkedIn/file upload options. Requires LinkedIn API credentials from user."
 
 metadata:
   created_by: "main_agent"
