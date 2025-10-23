@@ -66,42 +66,65 @@ const ResumeImport = ({ onImportComplete, onClose }) => {
         <div className="import-header">
           <FileText size={32} className="import-icon" />
           <h2>Import Resume</h2>
-          <p>Upload your existing resume (PDF or DOCX) to auto-fill your information</p>
+          <p>Upload your existing resume or import from LinkedIn</p>
         </div>
 
         {!success ? (
-          <div className="upload-area">
-            <input
-              type="file"
-              accept=".pdf,.docx"
-              onChange={handleFileUpload}
-              disabled={uploading}
-              className="file-input"
-              id="resume-upload"
-            />
-            <label htmlFor="resume-upload" className="upload-label">
-              {uploading ? (
-                <>
-                  <Loader2 size={48} className="uploading-icon" />
-                  <p className="upload-text">Parsing your resume with AI...</p>
-                  <p className="upload-subtext">This may take a few seconds</p>
-                </>
-              ) : (
-                <>
-                  <Upload size={48} className="upload-icon" />
-                  <p className="upload-text">Click to upload or drag and drop</p>
-                  <p className="upload-subtext">PDF or DOCX (max 5MB)</p>
-                </>
-              )}
-            </label>
+          <>
+            {/* LinkedIn Import Section */}
+            <div className="import-option-section">
+              <h3 className="import-option-title">Import from LinkedIn</h3>
+              <p className="import-option-description">Connect your LinkedIn profile to auto-fill your information</p>
+              <LinkedInImport onImportComplete={(data) => {
+                setSuccess(true);
+                setTimeout(() => {
+                  onImportComplete(data);
+                }, 1500);
+              }} />
+            </div>
 
-            {error && (
-              <div className="error-message">
-                <AlertCircle size={20} />
-                <span>{error}</span>
+            <div className="import-divider">
+              <span>OR</span>
+            </div>
+
+            {/* File Upload Section */}
+            <div className="import-option-section">
+              <h3 className="import-option-title">Upload Resume File</h3>
+              <p className="import-option-description">Upload your existing resume (PDF or DOCX)</p>
+              <div className="upload-area">
+                <input
+                  type="file"
+                  accept=".pdf,.docx"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  className="file-input"
+                  id="resume-upload"
+                />
+                <label htmlFor="resume-upload" className="upload-label">
+                  {uploading ? (
+                    <>
+                      <Loader2 size={48} className="uploading-icon" />
+                      <p className="upload-text">Parsing your resume with AI...</p>
+                      <p className="upload-subtext">This may take a few seconds</p>
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={48} className="upload-icon" />
+                      <p className="upload-text">Click to upload or drag and drop</p>
+                      <p className="upload-subtext">PDF or DOCX (max 5MB)</p>
+                    </>
+                  )}
+                </label>
+
+                {error && (
+                  <div className="error-message">
+                    <AlertCircle size={20} />
+                    <span>{error}</span>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          </>
         ) : (
           <div className="success-message">
             <CheckCircle2 size={64} className="success-icon" />
