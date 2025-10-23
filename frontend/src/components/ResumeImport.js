@@ -3,6 +3,7 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Upload, FileText, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import axios from 'axios';
+import LinkedInImport from './LinkedInImport';
 import './ResumeImport.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
