@@ -147,15 +147,16 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: white;
+  border: 2px solid #e2e8f0;
   border-radius: 8px;
   transition: all 0.2s;
 }
 
 .section-order-item:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #f8fafc;
+  border-color: #7c3aed;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
 }
 
 .section-number {
