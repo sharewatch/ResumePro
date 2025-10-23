@@ -116,8 +116,54 @@ export const TraditionalTemplate = ({ resumeData, templateStyles, customization 
 };
 
 // Two-Column Sidebar Template
-export const TwoColumnTemplate = ({ resumeData, templateStyles }) => {
+export const TwoColumnTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills, certifications, languages } = resumeData;
+  
+  // Define main content sections
+  const mainSections = {
+    summary: summary && (
+      <section className="section" key="summary">
+        <h2 style={{ color: templateStyles.accentColor }}>Profile</h2>
+        <p>{summary}</p>
+      </section>
+    ),
+    experience: experience.length > 0 && (
+      <section className="section" key="experience">
+        <h2 style={{ color: templateStyles.accentColor }}>Experience</h2>
+        {experience.map((exp) => (
+          <div key={exp.id} className="experience-item">
+            <h3>{exp.title}</h3>
+            <p className="company">{exp.company} | {exp.startDate} - {exp.current ? 'Present' : exp.endDate}</p>
+            <ul>
+              {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ),
+    education: education.length > 0 && (
+      <section className="section" key="education">
+        <h2 style={{ color: templateStyles.accentColor }}>Education</h2>
+        {education.map((edu) => (
+          <div key={edu.id} className="education-item">
+            <h3>{edu.degree}</h3>
+            <p>{edu.school} - {edu.graduationDate}</p>
+          </div>
+        ))}
+      </section>
+    ),
+    certifications: certifications && certifications.length > 0 && (
+      <section className="section" key="certifications">
+        <h2 style={{ color: templateStyles.accentColor }}>Certifications</h2>
+        {certifications.map((cert) => (
+          <div key={cert.id}>
+            <h3>{cert.name}</h3>
+            <p>{cert.issuer} {cert.date && `- ${cert.date}`}</p>
+          </div>
+        ))}
+      </section>
+    )
+  };
   
   return (
     <div className="template-two-column">
@@ -170,39 +216,8 @@ export const TwoColumnTemplate = ({ resumeData, templateStyles }) => {
       <main className="main-content">
         <h1 className="name" style={{ color: templateStyles.accentColor }}>{personalInfo.fullName}</h1>
         
-        {summary && (
-          <section className="section">
-            <h2 style={{ color: templateStyles.accentColor }}>Profile</h2>
-            <p>{summary}</p>
-          </section>
-        )}
-
-        {experience.length > 0 && (
-          <section className="section">
-            <h2 style={{ color: templateStyles.accentColor }}>Experience</h2>
-            {experience.map((exp) => (
-              <div key={exp.id} className="experience-item">
-                <h3>{exp.title}</h3>
-                <p className="company">{exp.company} | {exp.startDate} - {exp.current ? 'Present' : exp.endDate}</p>
-                <ul>
-                  {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
-                </ul>
-              </div>
-            ))}
-          </section>
-        )}
-
-        {education.length > 0 && (
-          <section className="section">
-            <h2 style={{ color: templateStyles.accentColor }}>Education</h2>
-            {education.map((edu) => (
-              <div key={edu.id} className="education-item">
-                <h3>{edu.degree}</h3>
-                <p>{edu.school} - {edu.graduationDate}</p>
-              </div>
-            ))}
-          </section>
-        )}
+        {/* Render main sections in custom order */}
+        {renderSectionsByOrder(customization.sectionOrder, mainSections)}
       </main>
     </div>
   );
