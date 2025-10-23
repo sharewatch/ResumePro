@@ -3,8 +3,18 @@ import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
 import './ResumeTemplates.css';
 import './ResumeTemplatesEnhanced.css';
 
+// Helper function to render sections in custom order
+const renderSectionsByOrder = (sectionOrder, sectionComponents) => {
+  if (!sectionOrder || sectionOrder.length === 0) {
+    // Return default order if no customization
+    return Object.values(sectionComponents);
+  }
+  
+  return sectionOrder.map(sectionId => sectionComponents[sectionId]).filter(Boolean);
+};
+
 // Traditional Single Column Template
-export const TraditionalTemplate = ({ resumeData, templateStyles }) => {
+export const TraditionalTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills, certifications, languages } = resumeData;
   
   return (
