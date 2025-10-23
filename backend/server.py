@@ -10,6 +10,11 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 import uuid
 from datetime import datetime, date
+import secrets
+import base64
+import requests
+from fastapi.responses import RedirectResponse
+from urllib.parse import urlencode
 from openai import OpenAI
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 from dotenv import load_dotenv
