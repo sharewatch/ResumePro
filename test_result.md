@@ -152,6 +152,18 @@ backend:
       - working: true
         agent: "main"
         comment: "Updated to use emergentintegrations LlmChat. Generates professional cover letters (300-400 words) tailored to resume and job description with AI suggestions. Tested and working."
+  
+  - task: "LinkedIn OAuth Integration endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created LinkedIn OAuth handler with /api/auth/linkedin/login, /api/auth/linkedin/callback, and /api/auth/linkedin/prefill endpoints. Requires LINKEDIN_CLIENT_ID and LINKEDIN_CLIENT_SECRET from user. Ready for testing once credentials are provided."
 
 frontend:
   - task: "Enhanced Template Styles CSS"
