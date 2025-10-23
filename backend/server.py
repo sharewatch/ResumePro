@@ -827,6 +827,145 @@ async def export_docx(request: ExportRequest):
     filename = f"{data.personalInfo.fullName.replace(' ', '_')}_Resume.docx"
     return StreamingResponse(buffer, media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document", headers={"Content-Disposition": f"attachment; filename={filename}"})
 
+# LinkedIn OAuth Handler
+class LinkedInOAuthHandler:
+    def __init__(self):
+        self.client_id = os.getenv("LINKEDIN_CLIENT_ID", "")
+        self.client_secret = os.getenv("LINKEDIN_CLIENT_SECRET", "")
+        self.redirect_uri = os.getenv("LINKEDIN_REDIRECT_URI", "http://localhost:8001/api/auth/linkedin/callback")
+        self.authorization_base_url = "https://www.linkedin.com/oauth/v2/authorization"
+        self.token_url = "https://www.linkedin.com/oauth/v2/accessToken"
+        self.userinfo_url = "https://api.linkedin.com/v2/userinfo"
+    
+    def generate_authorization_url(self):
+        """Generate the LinkedIn authorization URL"""
+        state = secrets.token_urlsafe(32)
+        scope = ["openid", "profile", "email"]
+        
+        params = {
+            "response_type": "code",
+            "client_id": self.client_id,
+            "redirect_uri": self.redirect_uri,
+            "state": state,
+            "scope": " ".join(scope)
+        }
+        
+        authorization_url = f"{self.authorization_base_url}?{urlencode(params)}"
+        return authorization_url, state
+    
+    def exchange_code_for_token(self, code: str):
+        """Exchange authorization code for access token"""
+        data = {
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": self.redirect_uri,
+            "client_id": self.client_id,
+            "client_secret": self.client_secret
+        }
+        
+        response = requests.post(self.token_url, data=data)
+        response.raise_for_status()
+        return response.json()
+    
+    def get_user_profile(self, access_token: str):
+        """Retrieve authenticated user's profile information"""
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "X-Restli-Protocol-Version": "2.0.0",
+        }
+        
+        response = requests.get(self.userinfo_url, headers=headers)
+        response.raise_for_status()
+        return response.json()
+
+# Initialize LinkedIn OAuth handler
+linkedin_oauth = LinkedInOAuthHandler()
+
+# LinkedIn OAuth Routes
+@api_router.get("/auth/linkedin/login")
+async def linkedin_login():
+    """Initiate LinkedIn OAuth flow"""
+    try:
+        if not linkedin_oauth.client_id or not linkedin_oauth.client_secret:
+            raise HTTPException(
+                status_code=500,
+                detail="LinkedIn OAuth is not configured. Please add LINKEDIN_CLIENT_ID and LINKEDIN_CLIENT_SECRET to your environment variables."
+            )
+        
+        authorization_url, state = linkedin_oauth.generate_authorization_url()
+        return {
+            "authorization_url": authorization_url,
+            "state": state
+        }
+    except Exception as e:
+        logger.error(f"Error generating LinkedIn authorization URL: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/auth/linkedin/callback")
+async def linkedin_callback(code: str, state: str):
+    """Handle LinkedIn OAuth callback"""
+    try:
+        # Exchange code for access token
+        token_data = linkedin_oauth.exchange_code_for_token(code)
+        access_token = token_data.get("access_token")
+        
+        if not access_token:
+            raise HTTPException(status_code=400, detail="Failed to obtain access token")
+        
+        # Retrieve user profile
+        profile_data = linkedin_oauth.get_user_profile(access_token)
+        
+        # Encode profile data for URL parameter
+        profile_json = json.dumps(profile_data)
+        encoded_profile = base64.b64encode(profile_json.encode()).decode()
+        
+        # Redirect to frontend with profile data
+        frontend_url = os.getenv("REACT_APP_BACKEND_URL", "http://localhost:3000").replace(":8001", ":3000").replace("/api", "")
+        redirect_url = f"{frontend_url}?linkedin_profile={encoded_profile}&linkedin_import=success"
+        
+        return RedirectResponse(url=redirect_url)
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Error in LinkedIn callback: {str(e)}")
+        frontend_url = os.getenv("REACT_APP_BACKEND_URL", "http://localhost:3000").replace(":8001", ":3000").replace("/api", "")
+        error_url = f"{frontend_url}?linkedin_import=error&message={str(e)}"
+        return RedirectResponse(url=error_url)
+
+@api_router.post("/auth/linkedin/prefill")
+async def prefill_from_linkedin(profile_data: dict):
+    """Convert LinkedIn profile data to resume format"""
+    try:
+        # Extract basic information from LinkedIn profile
+        resume_data = {
+            "personalInfo": {
+                "fullName": f"{profile_data.get('given_name', '')} {profile_data.get('family_name', '')}".strip(),
+                "email": profile_data.get('email', ''),
+                "phone": "",
+                "location": profile_data.get('locale', ''),
+                "linkedin": "",
+                "portfolio": "",
+                "photo": profile_data.get('picture', '')
+            },
+            "summary": profile_data.get('headline', ''),
+            "experience": [],
+            "education": [],
+            "skills": [],
+            "certifications": [],
+            "languages": []
+        }
+        
+        return {
+            "status": "success",
+            "data": resume_data
+        }
+        
+    except Exception as e:
+        logger.error(f"Error prefilling resume from LinkedIn: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 app.include_router(api_router)
 
 app.add_middleware(
