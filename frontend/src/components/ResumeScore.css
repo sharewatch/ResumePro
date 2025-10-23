@@ -12,6 +12,9 @@
   margin-bottom: 3rem;
   text-align: center;
 }
+.score-header .score-icon {
+  color: #667eea;
+}
 
 .score-icon {
   color: #667eea;
