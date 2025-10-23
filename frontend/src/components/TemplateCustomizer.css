@@ -113,6 +113,12 @@
   -moz-appearance: none;
 }
 
+/* Force solid background when dropdown is opened */
+.form-field select[size],
+.form-field select[multiple] {
+  background-color: #ffffff !important;
+}
+
 .form-field select:hover {
   border-color: #7c3aed;
   background-color: #ffffff !important;
@@ -126,10 +132,22 @@
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
+/* Dropdown options styling */
 .form-field select option {
   background-color: #ffffff !important;
   color: #0f172a !important;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+}
+
+.form-field select option:hover {
+  background-color: #f3f4f6 !important;
+}
+
+.form-field select option:checked {
+  background-color: #ede9fe !important;
+  color: #7c3aed !important;
 }
 
 .spacing-slider {
