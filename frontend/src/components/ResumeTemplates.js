@@ -17,6 +17,75 @@ const renderSectionsByOrder = (sectionOrder, sectionComponents) => {
 export const TraditionalTemplate = ({ resumeData, templateStyles, customization = {} }) => {
   const { personalInfo, summary, experience, education, skills, certifications, languages } = resumeData;
   
+  // Define sections as components
+  const sectionComponents = {
+    summary: summary && (
+      <section className="section" key="summary">
+        <h2 style={{ color: templateStyles.accentColor }}>Professional Summary</h2>
+        <p>{summary}</p>
+      </section>
+    ),
+    experience: experience.length > 0 && (
+      <section className="section" key="experience">
+        <h2 style={{ color: templateStyles.accentColor }}>Work Experience</h2>
+        {experience.map((exp) => (
+          <div key={exp.id} className="experience-item">
+            <div className="exp-header">
+              <div>
+                <h3>{exp.title}</h3>
+                <p className="company">{exp.company}</p>
+              </div>
+              <span className="dates">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+            </div>
+            <ul>
+              {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ),
+    education: education.length > 0 && (
+      <section className="section" key="education">
+        <h2 style={{ color: templateStyles.accentColor }}>Education</h2>
+        {education.map((edu) => (
+          <div key={edu.id} className="education-item">
+            <h3>{edu.degree}</h3>
+            <p>{edu.school} - {edu.graduationDate}</p>
+          </div>
+        ))}
+      </section>
+    ),
+    skills: skills.length > 0 && (
+      <section className="section" key="skills">
+        <h2 style={{ color: templateStyles.accentColor }}>Skills</h2>
+        <div className="skills-list">
+          {skills.map((skill, idx) => skill && <span key={idx} className="skill-tag" style={{ borderColor: templateStyles.accentColor }}>{skill}</span>)}
+        </div>
+      </section>
+    ),
+    certifications: certifications && certifications.length > 0 && (
+      <section className="section" key="certifications">
+        <h2 style={{ color: templateStyles.accentColor }}>Certifications</h2>
+        {certifications.map((cert) => (
+          <div key={cert.id} className="certification-item">
+            <h3>{cert.name}</h3>
+            <p>{cert.issuer} {cert.date && `- ${cert.date}`}</p>
+          </div>
+        ))}
+      </section>
+    ),
+    languages: languages && languages.length > 0 && (
+      <section className="section" key="languages">
+        <h2 style={{ color: templateStyles.accentColor }}>Languages</h2>
+        {languages.map((lang) => (
+          <div key={lang.id} className="language-item">
+            <strong>{lang.language}:</strong> {lang.proficiency}
+          </div>
+        ))}
+      </section>
+    )
+  };
+  
   return (
     <div className="template-traditional">
       <div className="header" style={{ borderBottomColor: templateStyles.accentColor }}>
@@ -37,53 +106,11 @@ export const TraditionalTemplate = ({ resumeData, templateStyles, customization 
         </div>
       </div>
 
-      {summary && (
-        <section className="section">
-          <h2 style={{ color: templateStyles.accentColor }}>Professional Summary</h2>
-          <p>{summary}</p>
-        </section>
-      )}
-
-      {experience.length > 0 && (
-        <section className="section">
-          <h2 style={{ color: templateStyles.accentColor }}>Work Experience</h2>
-          {experience.map((exp) => (
-            <div key={exp.id} className="experience-item">
-              <div className="exp-header">
-                <div>
-                  <h3>{exp.title}</h3>
-                  <p className="company">{exp.company}</p>
-                </div>
-                <span className="dates">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
-              </div>
-              <ul>
-                {exp.bullets.map((bullet, idx) => bullet && <li key={idx}>{bullet}</li>)}
-              </ul>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {education.length > 0 && (
-        <section className="section">
-          <h2 style={{ color: templateStyles.accentColor }}>Education</h2>
-          {education.map((edu) => (
-            <div key={edu.id} className="education-item">
-              <h3>{edu.degree}</h3>
-              <p>{edu.school} - {edu.graduationDate}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {skills.length > 0 && (
-        <section className="section">
-          <h2 style={{ color: templateStyles.accentColor }}>Skills</h2>
-          <div className="skills-list">
-            {skills.map((skill, idx) => skill && <span key={idx} className="skill-tag" style={{ borderColor: templateStyles.accentColor }}>{skill}</span>)}
-          </div>
-        </section>
-      )}
+      {/* Render sections in custom order */}
+      {renderSectionsByOrder(customization.sectionOrder, sectionComponents)}
+    </div>
+  );
+};
     </div>
   );
 };
