@@ -258,11 +258,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Enhanced Template Styles CSS"
-    - "Resume Score & Analytics Dashboard implementation"
-    - "Template Customizer implementation"
+    - "LinkedIn OAuth Integration endpoints"
+    - "LinkedIn Import Component"
+    - "Global Font Consistency CSS"
   stuck_tasks:
     - "Resume Parse endpoint - needs Emergent LLM key validation"
+    - "LinkedIn OAuth - awaiting user credentials"
   test_all: false
   test_priority: "high_first"
 
@@ -273,3 +274,5 @@ agent_communication:
     message: "Phase 2.1 & 2.2 Complete: Implemented comprehensive Resume Score & Analytics Dashboard with ATS compatibility, keyword analysis, formatting checks, and length analysis. Implemented Advanced Template Customization with 8 fonts, spacing/size/line height/margin sliders, and section ordering. Phase 2.3 IN PROGRESS: Fixed PDF import issue - backend was using direct OpenAI SDK with Emergent LLM key (causing 401 errors). Updated parse_resume_with_ai to use emergentintegrations.llm.chat.LlmChat. Testing needed."
   - agent: "user"
     message: "Bug Report: When importing PDF resume it doesn't appear anywhere after upload"
+  - agent: "main"
+    message: "Phase 3 Complete: (1) Created global-fonts.css with system font stack and !important overrides for consistent typography across all pages. (2) Implemented complete LinkedIn OAuth integration with backend endpoints (/api/auth/linkedin/login, callback, prefill) and frontend LinkedInImport component. Updated ResumeImport dialog to offer both LinkedIn and file upload options. Integration requires LinkedIn API credentials (CLIENT_ID and CLIENT_SECRET) from user before testing."
