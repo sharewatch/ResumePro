@@ -95,15 +95,16 @@
 .form-field select {
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem;
-  border: 2px solid #cbd5e1;
+  border: 2px solid #94a3b8;
   border-radius: 8px;
-  background-color: #f8fafc !important;
+  background-color: #ffffff !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-size: 0.9375rem;
-  color: #0f172a;
+  color: #0f172a !important;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -113,20 +114,21 @@
 }
 
 .form-field select:hover {
-  border-color: #94a3b8;
-  background-color: white !important;
+  border-color: #7c3aed;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.1);
 }
 
 .form-field select:focus {
   outline: none;
   border-color: #7c3aed;
-  background-color: white !important;
+  background-color: #ffffff !important;
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .form-field select option {
-  background-color: white !important;
-  color: #0f172a;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
   padding: 0.5rem;
 }
 
