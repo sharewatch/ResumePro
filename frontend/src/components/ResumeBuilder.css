@@ -185,7 +185,7 @@
 }
 
 /* Pastel Color System for Main Tabs */
-/* Edit Content */
+/* 1. Edit Content - Pink */
 .main-tabs [role="tab"]:nth-child(1)[data-state="active"],
 .main-tabs button[data-state="active"]:nth-child(1) {
   background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 100%) !important;
@@ -195,7 +195,7 @@
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3) !important;
 }
 
-/* Preview */
+/* 2. Customise - Lavender */
 .main-tabs [role="tab"]:nth-child(2)[data-state="active"],
 .main-tabs button[data-state="active"]:nth-child(2) {
   background: linear-gradient(135deg, #e0bbff 0%, #d4a5ff 100%) !important;
@@ -205,7 +205,7 @@
   box-shadow: 0 4px 8px rgba(212, 165, 255, 0.3) !important;
 }
 
-/* Cover Letter */
+/* 3. Preview - Sky Blue */
 .main-tabs [role="tab"]:nth-child(3)[data-state="active"],
 .main-tabs button[data-state="active"]:nth-child(3) {
   background: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%) !important;
@@ -215,7 +215,7 @@
   box-shadow: 0 4px 8px rgba(129, 212, 250, 0.3) !important;
 }
 
-/* Score & Analytics */
+/* 4. Score & Analytics - Green */
 .main-tabs [role="tab"]:nth-child(4)[data-state="active"],
 .main-tabs button[data-state="active"]:nth-child(4) {
   background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%) !important;
@@ -225,7 +225,7 @@
   box-shadow: 0 4px 8px rgba(165, 214, 167, 0.3) !important;
 }
 
-/* Customise */
+/* 5. Cover Letter - Yellow */
 .main-tabs [role="tab"]:nth-child(5)[data-state="active"],
 .main-tabs button[data-state="active"]:nth-child(5) {
   background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%) !important;
