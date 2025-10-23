@@ -44,6 +44,53 @@
   margin: 0;
 }
 
+
+/* Import Option Sections */
+.import-option-section {
+  margin-bottom: 1.5rem;
+}
+
+.import-option-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.5rem 0;
+}
+
+.import-option-description {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0 0 1rem 0;
+}
+
+.import-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.import-divider::before,
+.import-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.import-divider:not(:empty)::before {
+  margin-right: 1rem;
+}
+
+.import-divider:not(:empty)::after {
+  margin-left: 1rem;
+}
+
+.import-divider span {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
 .upload-area {
   margin-bottom: 1.5rem;
 }
