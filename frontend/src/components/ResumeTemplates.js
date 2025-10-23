@@ -111,9 +111,6 @@ export const TraditionalTemplate = ({ resumeData, templateStyles, customization 
     </div>
   );
 };
-    </div>
-  );
-};
 
 // Two-Column Sidebar Template
 export const TwoColumnTemplate = ({ resumeData, templateStyles, customization = {} }) => {
