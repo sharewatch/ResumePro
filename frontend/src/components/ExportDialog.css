@@ -1,12 +1,20 @@
 .export-dialog {
   max-width: 700px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+.export-dialog * {
+  font-family: inherit !important;
 }
 
 .export-title {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   color: #0f172a;
+  text-align: center;
 }
 
 .export-options {
