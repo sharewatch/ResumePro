@@ -1,3 +1,4 @@
+import "./global-fonts.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ResumeBuilder from "./components/ResumeBuilder";
