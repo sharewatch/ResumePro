@@ -150,6 +150,7 @@
 .main-tabs [role="tablist"],
 .main-tabs .tabs-list {
   display: flex !important;
+  justify-content: center !important;
   gap: 0.375rem !important;
   padding: 0.75rem !important;
   background: var(--background-secondary) !important;
